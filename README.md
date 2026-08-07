@@ -89,6 +89,9 @@ compileSpec(spec); //=> FlowJson
 
 - __compileSpec(spec, options?)__ {FlowJson} — `options.embed` writes the spec into the flow's
   `description` so re-importing recovers it exactly _(default=`false`)_
+- __compileFlow(spec, options?)__ {CompiledFlow} — the same graph, plus `stages`: a node id →
+  stage map recording which step of the spec produced each node. A `resetFlowError` looks identical
+  whichever stage put it there, so this is the only way to group a compiled flow by intent
 - __newSpec(name?)__ {FlowSpec} — every step off
 - __migrateSpec(value)__ {FlowSpec} — validates a spec from storage; throws `SpecVersionError`
 

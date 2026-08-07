@@ -88,6 +88,7 @@ export type {
 // --- recipes and the spec compiler ------------------------------------------
 export {
   cleanTracks,
+  compileFlow,
   compileSpec,
   extrasSegment,
   finalise,
@@ -100,7 +101,7 @@ export {
   sourceFile,
   transcodeVideo,
 } from './recipes/index.ts';
-export type { CompileOptions, Recipe, RecipeMeta } from './recipes/index.ts';
+export type { CompiledFlow, CompileOptions, Recipe, RecipeMeta, Stage } from './recipes/index.ts';
 export { SPEC_VERSION, SpecVersionError } from './types/spec.ts';
 
 // --- import and recognition --------------------------------------------------

@@ -154,6 +154,12 @@ export interface PlacedNode {
   inputsDB: Record<string, string>;
   shape: Shape;
   offSpine: boolean;
+  /**
+   * Which stage of the spec produced this node. Not part of the flow Tdarr
+   * stores - it is authoring provenance, used to group the graph by the wizard
+   * step a reader is looking at.
+   */
+  stage?: string;
 }
 
 export interface ModelEdge {
@@ -319,6 +325,7 @@ export class FlowBuilder {
   #edges: ModelEdge[] = [];
   #ids: IdAllocator;
   #entry: string | undefined;
+  #stage: string | undefined;
 
   constructor(name: string, options: FlowOptions = {}) {
     this.name = name;
@@ -339,6 +346,23 @@ export class FlowBuilder {
     return cursor;
   }
 
+  /**
+   * Tag everything added from here on with a stage name, so the graph can be
+   * grouped by the part of the spec that produced it. Pass `undefined` to stop
+   * tagging.
+   */
+  stage(name: string | undefined): this {
+    this.#stage = name;
+    return this;
+  }
+
+  /** Node id -> stage, for every node that was tagged. */
+  stages(): Record<string, string> {
+    return Object.fromEntries(
+      this.#nodes.filter((n) => n.stage).map((n) => [n.id, n.stage!]),
+    );
+  }
+
   /** A node with nothing wired to it yet - for graphs a single chain cannot express. */
   add<R extends AnyRef>(spec: NodeSpec<R>): Cursor<R> {
     const id = spec.options.id ? this.#ids.claim(spec.options.id) : this.#ids.next(spec.ref);
@@ -355,6 +379,7 @@ export class FlowBuilder {
       inputsDB: spec.inputsDB,
       shape: spec.declaredShape ?? shapeOfRef(spec.ref) ?? UNKNOWN_SHAPE,
       offSpine: spec.options.offSpine ?? false,
+      ...(this.#stage ? { stage: this.#stage } : {}),
     });
 
     return new Cursor(this, id, spec.ref);

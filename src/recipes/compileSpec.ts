@@ -31,7 +31,33 @@ export interface CompileOptions {
   embed?: boolean;
 }
 
-export function compileSpec(spec: FlowSpec, options: CompileOptions = {}): FlowJson {
+/**
+ * The stage a node came from. Matches the wizard's step ids, so the app can
+ * group the graph by the step a reader is looking at without having to guess
+ * from plugin names.
+ */
+export type Stage =
+  | 'source'
+  | 'container'
+  | 'video'
+  | 'tracks'
+  | 'audio'
+  | 'output'
+  | 'advanced';
+
+export interface CompiledFlow {
+  flow: FlowJson;
+  /** Node id -> stage. */
+  stages: Record<string, Stage>;
+}
+
+/**
+ * Compiles, and reports which stage produced each node.
+ *
+ * Written as statements rather than one fluent chain purely so the stage can be
+ * set between steps - the graph it builds is identical.
+ */
+export function compileFlow(spec: FlowSpec, options: CompileOptions = {}): CompiledFlow {
   if (spec.specVersion !== SPEC_VERSION) throw new SpecVersionError(spec.specVersion);
 
   const description = options.embed
@@ -46,22 +72,45 @@ export function compileSpec(spec: FlowSpec, options: CompileOptions = {}): FlowJ
     ...(spec.policy.layout ? { layout: spec.policy.layout } : {}),
   });
 
-  builder
-    .start(plugins.inputFile())
-    .then(sourceFile(spec.source))
-    .then(extrasSegment(spec.extras, 'afterSource'))
-    .then(remuxContainer(spec.container))
-    .then(extrasSegment(spec.extras, 'afterContainer'))
-    .then(transcodeVideo(spec.video))
-    .then(extrasSegment(spec.extras, 'afterVideo'))
-    .then(cleanTracks(spec.tracks))
-    .then(extrasSegment(spec.extras, 'afterTracks'))
-    .then(normalizeAudio(spec.audio, spec.container))
-    .then(extrasSegment(spec.extras, 'afterAudio'))
-    .then(extrasSegment(spec.extras, 'beforeOutput'))
-    .then(finalise(spec.output, spec.container));
+  // The entry node belongs to the source stage: it is what the source gates
+  // gate, and grouping it separately would leave a one-node group above them.
+  let cursor = builder.stage('source').start(plugins.inputFile());
+  cursor = cursor.then(sourceFile(spec.source));
 
-  return builder.build();
+  const extras = (anchor: Parameters<typeof extrasSegment>[1]) => {
+    builder.stage('advanced');
+    cursor = cursor.then(extrasSegment(spec.extras, anchor));
+  };
+
+  extras('afterSource');
+
+  builder.stage('container');
+  cursor = cursor.then(remuxContainer(spec.container));
+  extras('afterContainer');
+
+  builder.stage('video');
+  cursor = cursor.then(transcodeVideo(spec.video));
+  extras('afterVideo');
+
+  builder.stage('tracks');
+  cursor = cursor.then(cleanTracks(spec.tracks));
+  extras('afterTracks');
+
+  builder.stage('audio');
+  cursor = cursor.then(normalizeAudio(spec.audio, spec.container));
+  extras('afterAudio');
+  extras('beforeOutput');
+
+  builder.stage('output');
+  cursor.then(finalise(spec.output, spec.container));
+
+  builder.stage(undefined);
+
+  return { flow: builder.build(), stages: builder.stages() as Record<string, Stage> };
+}
+
+export function compileSpec(spec: FlowSpec, options: CompileOptions = {}): FlowJson {
+  return compileFlow(spec, options).flow;
 }
 
 /** A spec with every step off - the starting point the wizard fills in. */

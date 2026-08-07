@@ -7,6 +7,7 @@
 import { describe, expect, it } from 'vitest';
 import {
   cleanTracks,
+  compileFlow,
   compileSpec,
   flow,
   lint,
@@ -146,6 +147,43 @@ describe('normalizeAudio', () => {
     const norm = json.flowPlugins.find((n) => n.pluginName === 'normaliseAudioTracks')!;
     expect(norm.sourceRepo).toBe('Local');
     expect(json.flowEdges.filter((e) => e.target === norm.id)).toHaveLength(2);
+  });
+});
+
+describe('compileFlow stages', () => {
+  const { flow, stages } = compileFlow(pipelineSpec);
+
+  it('attributes every node to a stage', () => {
+    const untagged = flow.flowPlugins.filter((n) => !stages[n.id]).map((n) => n.name);
+    expect(untagged).toEqual([]);
+  });
+
+  it('puts each node under the step that decided it', () => {
+    const named = (stage: string) =>
+      flow.flowPlugins.filter((n) => stages[n.id] === stage).map((n) => n.pluginName);
+
+    expect(named('source')).toEqual(['inputFile', 'checkFileMedium']);
+    expect(named('container')).toContain('runMkvPropEdit');
+    expect(named('video')).toContain('compareFileSizeRatio');
+    expect(named('audio')).toContain('ffmpegCommandEnsureAudioStream');
+    expect(named('output')).toContain('replaceOriginalFile');
+  });
+
+  it('groups advanced nodes separately from the stage they sit between', () => {
+    const spec = newSpec('Extras');
+    spec.extras = [{
+      id: 'extra0001',
+      pluginName: 'runHealthCheck',
+      version: '1.0.0',
+      sourceRepo: 'Community',
+      inputs: {},
+      anchor: 'afterSource',
+    }];
+    expect(compileFlow(spec).stages['extra0001']).toBe('advanced');
+  });
+
+  it('does not change the flow it compiles', () => {
+    expect(flow).toEqual(compileSpec(pipelineSpec));
   });
 });
 
