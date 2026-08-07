@@ -122,9 +122,13 @@ describe('structural recognition of a hand-built flow', () => {
     }
   });
 
-  it('preserves hand-arranged positions', () => {
+  it('preserves positions only for nodes that keep their identity', () => {
+    // Recognised stages are regenerated from the spec with fresh ids, so their
+    // old coordinates have nothing to attach to. Frozen extras keep theirs.
     const preserve = result.spec!.policy.layout?.preserve ?? {};
-    for (const node of fixture.flowPlugins) {
+    expect(Object.keys(preserve).sort()).toEqual(result.unrecognised.map((n) => n.id).sort());
+
+    for (const node of result.unrecognised) {
       expect(preserve[node.id]).toEqual(node.position);
     }
   });

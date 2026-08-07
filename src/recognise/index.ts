@@ -129,12 +129,22 @@ function structural(flow: FlowJson, _options: ImportOptions): Omit<ImportResult,
   const unrecognised = walk.unclaimed();
   spec.extras = unrecognised.map((node) => freeze(node, flow));
 
-  // Hand-arranged flows are arranged for a reason; recompiling should not
-  // flatten them.
+  // Positions can only be preserved for nodes that keep their identity, which
+  // means the frozen extras: a recognised stage is *regenerated* from the spec
+  // with fresh content-derived ids, so its old coordinates have nothing to
+  // attach to. Preserving every id would look thorough and do nothing, and
+  // would quietly misplace a node if a generated id ever matched a stale key.
+  //
+  // The consequence is real and worth stating: re-exporting an imported flow
+  // re-lays-out the parts we understood. The graph is equivalent, but it will
+  // not look the way the author arranged it.
+  const frozen = new Set(unrecognised.map((n) => n.id));
   spec.policy = {
     ...spec.policy,
     layout: {
-      preserve: Object.fromEntries(flow.flowPlugins.map((n) => [n.id, n.position])),
+      preserve: Object.fromEntries(
+        flow.flowPlugins.filter((n) => frozen.has(n.id)).map((n) => [n.id, n.position]),
+      ),
     },
   };
 
