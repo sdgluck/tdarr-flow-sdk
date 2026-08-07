@@ -10,6 +10,7 @@
     "./lint": "./src/lint/index.ts",
     "./recipes": "./src/recipes/index.ts",
     "./types": "./src/types/index.ts",
+    "./server": "./src/server/client.ts",
     "./node": "./src/node/index.ts"
   },
   "types": "./src/index.ts",

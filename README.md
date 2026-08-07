@@ -7,6 +7,7 @@ Build Tdarr flows from typed primitives instead of dragging boxes around a canva
 - 🍱 **Opinionated recipes** — declare what a flow is *for*; `compileSpec` works out how to wire it
 - 🔎 **A browser-safe linter** — the same structural rules the command-line harness uses, running on every keystroke
 - ♻️ **Import** — read an existing flow back into an editable spec, preserving whatever it could not interpret
+- 🔌 **A server client** — list, read and write flows on a Tdarr server straight from a browser, no backend
 
 Ships TypeScript source and runs on Node 24's native type stripping. No build step, no runtime
 dependencies. The main entry is browser-safe and imports directly into Vite; everything that touches
@@ -150,6 +151,40 @@ const { spec, source, recognised, unrecognised } = importFlow(json);
 Recognition is deliberately shallow — six matchers over a handful of idioms. It is safe to ship
 anyway because nothing is discarded: unclaimed nodes become frozen `ExtraNode`s carrying their
 original position and edges, and imported layouts are preserved rather than re-flowed.
+
+## Talking to a Tdarr server
+
+```js
+import { TdarrClient, verifyAgainstFlows } from 'tdarr-flow-sdk';
+
+const tdarr = new TdarrClient({ url: 'https://tdarr.example.com', token: 'optional' });
+
+await tdarr.listFlows();     //=> [{ id, name, nodeCount, edgeCount }]
+await tdarr.listLibraries(); //=> [{ id, name, folder, flowId }]
+await tdarr.listNodes();     //=> [{ id, name, paused }]
+await tdarr.saveFlow(flow, { mode: 'update' });
+```
+
+Browser-safe and backend-free: Tdarr answers cross-origin requests. Two things worth knowing, both
+found by probing a real 2.86.01 server rather than read from documentation:
+
+- The token goes in **`Authorization`** by default, not Tdarr's usual `x-api-key`. A Tdarr behind
+  the common nginx config advertises a fixed `Access-Control-Allow-Headers` list that omits
+  `x-api-key`, so a browser blocks the request at the preflight before sending it. Pass `authHeader`
+  to change it if your proxy allows something else.
+- Credentials are never included, because `Access-Control-Allow-Origin: *` and credentialed requests
+  are mutually exclusive by spec. Cookie auth needs the server to echo a specific origin.
+
+`saveFlow` requires `mode` rather than inferring it from whether the id exists: guessing would let a
+typo silently create a second flow instead of updating the intended one.
+
+### Verifying the catalog against a server
+
+Tdarr publishes no plugin definitions over its API — every plausible route 404s — so
+`verifyAgainstFlows` uses the flows themselves as evidence instead. **A flow that wires an `err1`
+edge on a plugin proves that plugin has an error handle**, which promotes a curated `assumed` guess
+to something observed. It reports the reverse too: a plugin wiring `err1` that the catalog says
+cannot fail means the catalog is wrong and the linter is rejecting a valid edge.
 
 ## Development
 

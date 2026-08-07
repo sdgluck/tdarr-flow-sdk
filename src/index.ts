@@ -114,5 +114,19 @@ export type {
 } from './recognise/index.ts';
 export type { Difference } from './recognise/isomorphic.ts';
 
+// --- server ------------------------------------------------------------------
+// Browser-safe: talks to Tdarr over fetch, with no backend or proxy in between.
+export { TdarrClient, TdarrError } from './server/client.ts';
+export type {
+  CrudRequest,
+  FlowSummary,
+  LibrarySummary,
+  NodeSummary,
+  ServerStatus,
+  TdarrClientOptions,
+} from './server/client.ts';
+export { formatVerifyReport, verifyAgainstFlows } from './server/verify.ts';
+export type { ErrorHandleEvidence, VerifyReport, VersionGap } from './server/verify.ts';
+
 // --- types ------------------------------------------------------------------
 export type * from './types/index.ts';
