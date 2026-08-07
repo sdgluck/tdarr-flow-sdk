@@ -74,6 +74,8 @@ export const CATALOG: Catalog = {
       "error": false,
       "errorConfidence": "observed",
       "terminal": false,
+      "flowEnding": false,
+      "passthroughInputs": false,
       "requiresVersion": "2.11.01",
       "icon": "faQuestion",
       "borderColor": "orange"
@@ -189,6 +191,8 @@ export const CATALOG: Catalog = {
       "error": false,
       "errorConfidence": "observed",
       "terminal": false,
+      "flowEnding": false,
+      "passthroughInputs": false,
       "requiresVersion": "2.11.01",
       "icon": "faQuestion",
       "borderColor": "orange"
@@ -236,6 +240,8 @@ export const CATALOG: Catalog = {
       "error": false,
       "errorConfidence": "observed",
       "terminal": false,
+      "flowEnding": false,
+      "passthroughInputs": false,
       "requiresVersion": "2.11.01",
       "icon": "faQuestion",
       "borderColor": "orange"
@@ -302,6 +308,8 @@ export const CATALOG: Catalog = {
       "error": false,
       "errorConfidence": "observed",
       "terminal": false,
+      "flowEnding": false,
+      "passthroughInputs": false,
       "requiresVersion": "2.11.01",
       "borderColor": "#6efefc"
     },
@@ -370,6 +378,8 @@ export const CATALOG: Catalog = {
       "error": false,
       "errorConfidence": "observed",
       "terminal": false,
+      "flowEnding": false,
+      "passthroughInputs": false,
       "requiresVersion": "2.64.01",
       "icon": "faMicrochip",
       "borderColor": "#76B900"
@@ -409,6 +419,8 @@ export const CATALOG: Catalog = {
       "error": false,
       "errorConfidence": "observed",
       "terminal": false,
+      "flowEnding": false,
+      "passthroughInputs": false,
       "requiresVersion": "2.64.01",
       "icon": "faMoon",
       "borderColor": "#FF9800"
@@ -500,6 +512,8 @@ export const CATALOG: Catalog = {
       "error": false,
       "errorConfidence": "observed",
       "terminal": false,
+      "flowEnding": false,
+      "passthroughInputs": false,
       "requiresVersion": "2.64.01",
       "icon": "faPlay",
       "borderColor": "#FF9800"
@@ -716,6 +730,8 @@ export const CATALOG: Catalog = {
       "error": false,
       "errorConfidence": "observed",
       "terminal": false,
+      "flowEnding": false,
+      "passthroughInputs": false,
       "requiresVersion": "2.11.01",
       "borderColor": "green"
     },
@@ -754,6 +770,8 @@ export const CATALOG: Catalog = {
       "error": false,
       "errorConfidence": "observed",
       "terminal": false,
+      "flowEnding": false,
+      "passthroughInputs": true,
       "requiresVersion": "2.11.01",
       "icon": "faQuestion",
       "borderColor": "orange"
@@ -789,6 +807,8 @@ export const CATALOG: Catalog = {
       "error": true,
       "errorConfidence": "observed",
       "terminal": false,
+      "flowEnding": false,
+      "passthroughInputs": true,
       "requiresVersion": "2.11.01",
       "borderColor": "green"
     },
@@ -827,6 +847,8 @@ export const CATALOG: Catalog = {
       "error": true,
       "errorConfidence": "observed",
       "terminal": false,
+      "flowEnding": false,
+      "passthroughInputs": true,
       "requiresVersion": "2.11.01",
       "borderColor": "green"
     },
@@ -870,6 +892,8 @@ export const CATALOG: Catalog = {
       "error": false,
       "errorConfidence": "observed",
       "terminal": false,
+      "flowEnding": false,
+      "passthroughInputs": false,
       "requiresVersion": "2.11.01",
       "icon": "faQuestion",
       "borderColor": "orange"
@@ -899,6 +923,8 @@ export const CATALOG: Catalog = {
       "error": false,
       "errorConfidence": "observed",
       "terminal": false,
+      "flowEnding": false,
+      "passthroughInputs": false,
       "requiresVersion": "2.11.01",
       "icon": "faQuestion",
       "borderColor": "orange"
@@ -922,6 +948,8 @@ export const CATALOG: Catalog = {
       "error": false,
       "errorConfidence": "observed",
       "terminal": false,
+      "flowEnding": false,
+      "passthroughInputs": false,
       "requiresVersion": "2.11.01",
       "borderColor": "green"
     },
@@ -946,6 +974,8 @@ export const CATALOG: Catalog = {
       "error": false,
       "errorConfidence": "observed",
       "terminal": false,
+      "flowEnding": false,
+      "passthroughInputs": false,
       "requiresVersion": "2.11.01",
       "borderColor": "#6efefc"
     },
@@ -970,6 +1000,8 @@ export const CATALOG: Catalog = {
       "error": false,
       "errorConfidence": "observed",
       "terminal": false,
+      "flowEnding": false,
+      "passthroughInputs": false,
       "requiresVersion": "2.11.01",
       "borderColor": "#6efefc"
     },
@@ -1015,6 +1047,8 @@ export const CATALOG: Catalog = {
       "error": false,
       "errorConfidence": "observed",
       "terminal": false,
+      "flowEnding": false,
+      "passthroughInputs": false,
       "requiresVersion": "2.11.01",
       "borderColor": "#6efefc"
     },
@@ -1157,6 +1191,8 @@ export const CATALOG: Catalog = {
       "error": false,
       "errorConfidence": "observed",
       "terminal": false,
+      "flowEnding": false,
+      "passthroughInputs": false,
       "requiresVersion": "2.11.01",
       "borderColor": "#6efefc"
     },
@@ -1181,6 +1217,8 @@ export const CATALOG: Catalog = {
       "error": true,
       "errorConfidence": "observed",
       "terminal": false,
+      "flowEnding": false,
+      "passthroughInputs": false,
       "requiresVersion": "2.11.01",
       "icon": "faPlay",
       "borderColor": "green"
@@ -1206,6 +1244,8 @@ export const CATALOG: Catalog = {
       "error": false,
       "errorConfidence": "observed",
       "terminal": false,
+      "flowEnding": false,
+      "passthroughInputs": false,
       "requiresVersion": "2.11.01",
       "borderColor": "#6efefc"
     },
@@ -1230,6 +1270,8 @@ export const CATALOG: Catalog = {
       "error": false,
       "errorConfidence": "observed",
       "terminal": false,
+      "flowEnding": false,
+      "passthroughInputs": false,
       "requiresVersion": "2.11.01",
       "borderColor": "#6efefc"
     },
@@ -1254,6 +1296,8 @@ export const CATALOG: Catalog = {
       "error": false,
       "errorConfidence": "observed",
       "terminal": false,
+      "flowEnding": false,
+      "passthroughInputs": false,
       "requiresVersion": "2.11.01",
       "borderColor": "#6efefc"
     },
@@ -1331,6 +1375,8 @@ export const CATALOG: Catalog = {
       "error": false,
       "errorConfidence": "observed",
       "terminal": false,
+      "flowEnding": false,
+      "passthroughInputs": false,
       "requiresVersion": "2.11.01",
       "borderColor": "#6efefc"
     },
@@ -1355,6 +1401,8 @@ export const CATALOG: Catalog = {
       "error": false,
       "errorConfidence": "observed",
       "terminal": false,
+      "flowEnding": false,
+      "passthroughInputs": false,
       "requiresVersion": "2.11.01",
       "borderColor": "#6efefc"
     },
@@ -1430,6 +1478,8 @@ export const CATALOG: Catalog = {
       "error": false,
       "errorConfidence": "observed",
       "terminal": false,
+      "flowEnding": false,
+      "passthroughInputs": false,
       "requiresVersion": "2.11.01",
       "borderColor": "#6efefc"
     },
@@ -1479,6 +1529,8 @@ export const CATALOG: Catalog = {
       "error": false,
       "errorConfidence": "observed",
       "terminal": false,
+      "flowEnding": false,
+      "passthroughInputs": false,
       "requiresVersion": "2.11.01",
       "borderColor": "#6efefc"
     },
@@ -1514,6 +1566,8 @@ export const CATALOG: Catalog = {
       "error": false,
       "errorConfidence": "observed",
       "terminal": false,
+      "flowEnding": false,
+      "passthroughInputs": false,
       "requiresVersion": "2.11.01",
       "borderColor": "#6efefc"
     },
@@ -1556,6 +1610,8 @@ export const CATALOG: Catalog = {
       "error": false,
       "errorConfidence": "observed",
       "terminal": false,
+      "flowEnding": false,
+      "passthroughInputs": false,
       "requiresVersion": "2.11.01",
       "borderColor": "#6efefc"
     },
@@ -1666,6 +1722,8 @@ export const CATALOG: Catalog = {
       "error": false,
       "errorConfidence": "observed",
       "terminal": false,
+      "flowEnding": false,
+      "passthroughInputs": false,
       "requiresVersion": "2.11.01",
       "borderColor": "#6efefc"
     },
@@ -1835,6 +1893,8 @@ export const CATALOG: Catalog = {
       "error": false,
       "errorConfidence": "observed",
       "terminal": false,
+      "flowEnding": false,
+      "passthroughInputs": false,
       "requiresVersion": "2.11.01",
       "borderColor": "#6efefc"
     },
@@ -1859,6 +1919,8 @@ export const CATALOG: Catalog = {
       "error": false,
       "errorConfidence": "observed",
       "terminal": false,
+      "flowEnding": false,
+      "passthroughInputs": false,
       "requiresVersion": "2.11.01",
       "borderColor": "green"
     },
@@ -1918,6 +1980,8 @@ export const CATALOG: Catalog = {
       "error": true,
       "errorConfidence": "assumed",
       "terminal": false,
+      "flowEnding": false,
+      "passthroughInputs": false,
       "requiresVersion": "2.11.01",
       "icon": "faHashtag",
       "borderColor": "green"
@@ -1945,6 +2009,8 @@ export const CATALOG: Catalog = {
       "error": false,
       "errorConfidence": "observed",
       "terminal": false,
+      "flowEnding": false,
+      "passthroughInputs": false,
       "requiresVersion": "2.11.01",
       "icon": "faQuestion",
       "borderColor": "orange"
@@ -1995,6 +2061,8 @@ export const CATALOG: Catalog = {
       "error": false,
       "errorConfidence": "observed",
       "terminal": false,
+      "flowEnding": false,
+      "passthroughInputs": false,
       "requiresVersion": "2.11.01",
       "icon": "faQuestion",
       "borderColor": "orange"
@@ -2035,6 +2103,8 @@ export const CATALOG: Catalog = {
       "error": false,
       "errorConfidence": "observed",
       "terminal": false,
+      "flowEnding": false,
+      "passthroughInputs": false,
       "requiresVersion": "2.11.01",
       "icon": "faQuestion",
       "borderColor": "orange"
@@ -2066,6 +2136,8 @@ export const CATALOG: Catalog = {
       "error": false,
       "errorConfidence": "observed",
       "terminal": false,
+      "flowEnding": false,
+      "passthroughInputs": false,
       "requiresVersion": "2.11.01",
       "icon": "faQuestion",
       "borderColor": "orange"
@@ -2106,6 +2178,8 @@ export const CATALOG: Catalog = {
       "error": false,
       "errorConfidence": "observed",
       "terminal": false,
+      "flowEnding": false,
+      "passthroughInputs": false,
       "requiresVersion": "2.11.01",
       "icon": "faQuestion",
       "borderColor": "orange"
@@ -2180,6 +2254,8 @@ export const CATALOG: Catalog = {
       "error": false,
       "errorConfidence": "observed",
       "terminal": false,
+      "flowEnding": false,
+      "passthroughInputs": false,
       "requiresVersion": "2.11.01",
       "icon": "faQuestion",
       "borderColor": "orange"
@@ -2246,6 +2322,8 @@ export const CATALOG: Catalog = {
       "error": false,
       "errorConfidence": "observed",
       "terminal": false,
+      "flowEnding": false,
+      "passthroughInputs": false,
       "requiresVersion": "2.11.01",
       "icon": "faQuestion",
       "borderColor": "orange"
@@ -2306,6 +2384,8 @@ export const CATALOG: Catalog = {
       "error": false,
       "errorConfidence": "observed",
       "terminal": false,
+      "flowEnding": false,
+      "passthroughInputs": false,
       "requiresVersion": "2.11.01",
       "icon": "faQuestion",
       "borderColor": "orange"
@@ -2333,6 +2413,8 @@ export const CATALOG: Catalog = {
       "error": false,
       "errorConfidence": "observed",
       "terminal": false,
+      "flowEnding": false,
+      "passthroughInputs": false,
       "requiresVersion": "2.11.01",
       "icon": "faLink",
       "borderColor": "orange"
@@ -2414,6 +2496,8 @@ export const CATALOG: Catalog = {
       "error": false,
       "errorConfidence": "observed",
       "terminal": false,
+      "flowEnding": false,
+      "passthroughInputs": false,
       "requiresVersion": "2.11.01",
       "icon": "faQuestion",
       "borderColor": "orange"
@@ -2473,6 +2557,8 @@ export const CATALOG: Catalog = {
       "error": false,
       "errorConfidence": "observed",
       "terminal": false,
+      "flowEnding": false,
+      "passthroughInputs": false,
       "requiresVersion": "2.11.01",
       "icon": "faQuestion",
       "borderColor": "orange"
@@ -2525,6 +2611,8 @@ export const CATALOG: Catalog = {
       "error": false,
       "errorConfidence": "observed",
       "terminal": false,
+      "flowEnding": false,
+      "passthroughInputs": false,
       "requiresVersion": "2.11.01",
       "icon": "faQuestion",
       "borderColor": "orange"
@@ -2556,6 +2644,8 @@ export const CATALOG: Catalog = {
       "error": false,
       "errorConfidence": "observed",
       "terminal": false,
+      "flowEnding": false,
+      "passthroughInputs": false,
       "requiresVersion": "2.11.01",
       "icon": "faQuestion",
       "borderColor": "orange"
@@ -2604,6 +2694,8 @@ export const CATALOG: Catalog = {
       "error": false,
       "errorConfidence": "observed",
       "terminal": false,
+      "flowEnding": false,
+      "passthroughInputs": false,
       "requiresVersion": "2.11.01",
       "icon": "faQuestion",
       "borderColor": "orange"
@@ -2656,6 +2748,8 @@ export const CATALOG: Catalog = {
       "error": false,
       "errorConfidence": "observed",
       "terminal": false,
+      "flowEnding": false,
+      "passthroughInputs": false,
       "requiresVersion": "2.11.01",
       "icon": "faQuestion",
       "borderColor": "orange"
@@ -2799,6 +2893,8 @@ export const CATALOG: Catalog = {
       "error": false,
       "errorConfidence": "observed",
       "terminal": false,
+      "flowEnding": false,
+      "passthroughInputs": false,
       "requiresVersion": "2.11.01",
       "icon": "faQuestion",
       "borderColor": "orange"
@@ -2906,6 +3002,8 @@ export const CATALOG: Catalog = {
       "error": true,
       "errorConfidence": "assumed",
       "terminal": false,
+      "flowEnding": false,
+      "passthroughInputs": false,
       "requiresVersion": "2.11.01",
       "icon": "faArrowRight",
       "borderColor": "green"
@@ -2960,6 +3058,8 @@ export const CATALOG: Catalog = {
       "error": true,
       "errorConfidence": "assumed",
       "terminal": false,
+      "flowEnding": false,
+      "passthroughInputs": false,
       "requiresVersion": "2.11.01",
       "icon": "faArrowRight",
       "borderColor": "green"
@@ -2983,6 +3083,8 @@ export const CATALOG: Catalog = {
       "error": false,
       "errorConfidence": "observed",
       "terminal": false,
+      "flowEnding": false,
+      "passthroughInputs": false,
       "requiresVersion": "2.11.01",
       "icon": "faArrowRight",
       "borderColor": "green"
@@ -3058,6 +3160,8 @@ export const CATALOG: Catalog = {
       "error": true,
       "errorConfidence": "assumed",
       "terminal": false,
+      "flowEnding": false,
+      "passthroughInputs": false,
       "requiresVersion": "2.11.01",
       "icon": "faTrash",
       "borderColor": "red"
@@ -3081,6 +3185,8 @@ export const CATALOG: Catalog = {
       "error": true,
       "errorConfidence": "assumed",
       "terminal": false,
+      "flowEnding": false,
+      "passthroughInputs": false,
       "requiresVersion": "2.11.01",
       "borderColor": "green"
     },
@@ -3124,6 +3230,8 @@ export const CATALOG: Catalog = {
       "error": true,
       "errorConfidence": "assumed",
       "terminal": false,
+      "flowEnding": false,
+      "passthroughInputs": false,
       "requiresVersion": "2.11.01",
       "icon": "faArrowRight",
       "borderColor": "green"
@@ -3147,6 +3255,8 @@ export const CATALOG: Catalog = {
       "error": false,
       "errorConfidence": "observed",
       "terminal": false,
+      "flowEnding": false,
+      "passthroughInputs": false,
       "requiresVersion": "2.11.01",
       "icon": "faArrowRight",
       "borderColor": "green"
@@ -3183,6 +3293,8 @@ export const CATALOG: Catalog = {
       "error": true,
       "errorConfidence": "assumed",
       "terminal": false,
+      "flowEnding": false,
+      "passthroughInputs": false,
       "requiresVersion": "2.11.01",
       "borderColor": "green"
     },
@@ -3205,6 +3317,8 @@ export const CATALOG: Catalog = {
       "error": false,
       "errorConfidence": "observed",
       "terminal": false,
+      "flowEnding": true,
+      "passthroughInputs": false,
       "requiresVersion": "2.11.01",
       "icon": "faArrowRight",
       "borderColor": "green"
@@ -3348,6 +3462,8 @@ export const CATALOG: Catalog = {
       "error": true,
       "errorConfidence": "assumed",
       "terminal": false,
+      "flowEnding": false,
+      "passthroughInputs": false,
       "requiresVersion": "2.11.01",
       "icon": "faFile",
       "borderColor": "green"
@@ -3411,6 +3527,8 @@ export const CATALOG: Catalog = {
       "error": false,
       "errorConfidence": "observed",
       "terminal": false,
+      "flowEnding": false,
+      "passthroughInputs": false,
       "requiresVersion": "2.11.01",
       "borderColor": "green"
     },
@@ -3433,6 +3551,8 @@ export const CATALOG: Catalog = {
       "error": true,
       "errorConfidence": "assumed",
       "terminal": false,
+      "flowEnding": false,
+      "passthroughInputs": false,
       "requiresVersion": "2.11.01",
       "icon": "faArrowRight",
       "borderColor": "green"
@@ -3497,6 +3617,8 @@ export const CATALOG: Catalog = {
       "error": false,
       "errorConfidence": "observed",
       "terminal": false,
+      "flowEnding": false,
+      "passthroughInputs": false,
       "requiresVersion": "2.11.01",
       "borderColor": "green"
     },
@@ -3600,6 +3722,8 @@ export const CATALOG: Catalog = {
       "error": false,
       "errorConfidence": "observed",
       "terminal": false,
+      "flowEnding": false,
+      "passthroughInputs": false,
       "requiresVersion": "2.14.01",
       "borderColor": "green"
     },
@@ -3643,6 +3767,8 @@ export const CATALOG: Catalog = {
       "error": false,
       "errorConfidence": "observed",
       "terminal": false,
+      "flowEnding": false,
+      "passthroughInputs": false,
       "requiresVersion": "2.11.01",
       "borderColor": "pink"
     },
@@ -3704,6 +3830,8 @@ export const CATALOG: Catalog = {
       "error": false,
       "errorConfidence": "observed",
       "terminal": false,
+      "flowEnding": false,
+      "passthroughInputs": false,
       "requiresVersion": "2.11.01",
       "icon": "faPenToSquare",
       "borderColor": "green"
@@ -3748,6 +3876,8 @@ export const CATALOG: Catalog = {
       "error": true,
       "errorConfidence": "assumed",
       "terminal": false,
+      "flowEnding": false,
+      "passthroughInputs": false,
       "requiresVersion": "2.18.01",
       "icon": "faBell",
       "borderColor": "green"
@@ -3808,6 +3938,8 @@ export const CATALOG: Catalog = {
       "error": false,
       "errorConfidence": "observed",
       "terminal": false,
+      "flowEnding": false,
+      "passthroughInputs": false,
       "requiresVersion": "2.11.01",
       "icon": "faCalculator",
       "borderColor": "green"
@@ -3870,6 +4002,8 @@ export const CATALOG: Catalog = {
       "error": false,
       "errorConfidence": "observed",
       "terminal": false,
+      "flowEnding": false,
+      "passthroughInputs": false,
       "requiresVersion": "2.11.01",
       "icon": "faQuestion",
       "borderColor": "orange"
@@ -3921,6 +4055,8 @@ export const CATALOG: Catalog = {
       "error": false,
       "errorConfidence": "observed",
       "terminal": false,
+      "flowEnding": false,
+      "passthroughInputs": false,
       "requiresVersion": "2.11.01",
       "icon": "faQuestion",
       "borderColor": "orange"
@@ -3959,6 +4095,8 @@ export const CATALOG: Catalog = {
       "error": false,
       "errorConfidence": "observed",
       "terminal": false,
+      "flowEnding": false,
+      "passthroughInputs": false,
       "requiresVersion": "2.11.01",
       "icon": "faTrash",
       "borderColor": "red"
@@ -3982,6 +4120,8 @@ export const CATALOG: Catalog = {
       "error": false,
       "errorConfidence": "observed",
       "terminal": false,
+      "flowEnding": false,
+      "passthroughInputs": false,
       "requiresVersion": "2.11.01",
       "icon": "faComment",
       "borderColor": "white"
@@ -4028,6 +4168,8 @@ export const CATALOG: Catalog = {
       "error": false,
       "errorConfidence": "observed",
       "terminal": false,
+      "flowEnding": false,
+      "passthroughInputs": false,
       "requiresVersion": "2.11.01",
       "icon": "faArrowRight",
       "borderColor": "green"
@@ -4046,6 +4188,8 @@ export const CATALOG: Catalog = {
       "error": false,
       "errorConfidence": "observed",
       "terminal": true,
+      "flowEnding": false,
+      "passthroughInputs": false,
       "requiresVersion": "2.11.01",
       "icon": "faExclamationTriangle",
       "borderColor": "red"
@@ -4076,6 +4220,8 @@ export const CATALOG: Catalog = {
       "error": false,
       "errorConfidence": "observed",
       "terminal": true,
+      "flowEnding": false,
+      "passthroughInputs": false,
       "requiresVersion": "2.11.01",
       "icon": "faArrowRight",
       "borderColor": "green"
@@ -4116,6 +4262,8 @@ export const CATALOG: Catalog = {
       "error": false,
       "errorConfidence": "observed",
       "terminal": true,
+      "flowEnding": false,
+      "passthroughInputs": false,
       "requiresVersion": "2.14.01",
       "icon": "faArrowRight",
       "borderColor": "green"
@@ -4174,6 +4322,8 @@ export const CATALOG: Catalog = {
       "error": true,
       "errorConfidence": "assumed",
       "terminal": false,
+      "flowEnding": false,
+      "passthroughInputs": false,
       "requiresVersion": "2.11.01",
       "icon": "faBell",
       "borderColor": "green"
@@ -4236,6 +4386,8 @@ export const CATALOG: Catalog = {
       "error": true,
       "errorConfidence": "assumed",
       "terminal": false,
+      "flowEnding": false,
+      "passthroughInputs": false,
       "requiresVersion": "2.11.01",
       "icon": "faBell",
       "borderColor": "green"
@@ -4259,6 +4411,8 @@ export const CATALOG: Catalog = {
       "error": false,
       "errorConfidence": "observed",
       "terminal": false,
+      "flowEnding": false,
+      "passthroughInputs": false,
       "requiresVersion": "2.11.01",
       "icon": "faArrowRight",
       "borderColor": "red"
@@ -4307,6 +4461,8 @@ export const CATALOG: Catalog = {
       "error": false,
       "errorConfidence": "observed",
       "terminal": false,
+      "flowEnding": false,
+      "passthroughInputs": false,
       "requiresVersion": "2.11.01",
       "icon": "faHand",
       "borderColor": "yellow"
@@ -4360,6 +4516,8 @@ export const CATALOG: Catalog = {
       "error": false,
       "errorConfidence": "observed",
       "terminal": false,
+      "flowEnding": false,
+      "passthroughInputs": false,
       "requiresVersion": "2.37.01",
       "icon": "faFile",
       "borderColor": "orange"
@@ -4403,6 +4561,8 @@ export const CATALOG: Catalog = {
       "error": false,
       "errorConfidence": "observed",
       "terminal": false,
+      "flowEnding": false,
+      "passthroughInputs": false,
       "requiresVersion": "2.37.01",
       "icon": "faFile",
       "borderColor": "orange"
@@ -4426,6 +4586,8 @@ export const CATALOG: Catalog = {
       "error": false,
       "errorConfidence": "observed",
       "terminal": false,
+      "flowEnding": false,
+      "passthroughInputs": false,
       "requiresVersion": "2.31.01",
       "icon": "faTrash",
       "borderColor": "red"
@@ -4449,6 +4611,8 @@ export const CATALOG: Catalog = {
       "error": false,
       "errorConfidence": "observed",
       "terminal": false,
+      "flowEnding": false,
+      "passthroughInputs": false,
       "requiresVersion": "2.11.01",
       "icon": "faHand",
       "borderColor": "yellow"
@@ -4472,6 +4636,8 @@ export const CATALOG: Catalog = {
       "error": false,
       "errorConfidence": "observed",
       "terminal": false,
+      "flowEnding": false,
+      "passthroughInputs": false,
       "requiresVersion": "2.11.01",
       "icon": "faUndo",
       "borderColor": "red"
@@ -4632,6 +4798,8 @@ export const CATALOG: Catalog = {
       "error": true,
       "errorConfidence": "assumed",
       "terminal": false,
+      "flowEnding": false,
+      "passthroughInputs": false,
       "requiresVersion": "2.11.01",
       "borderColor": "green"
     },
@@ -4654,6 +4822,8 @@ export const CATALOG: Catalog = {
       "error": true,
       "errorConfidence": "observed",
       "terminal": false,
+      "flowEnding": false,
+      "passthroughInputs": false,
       "requiresVersion": "2.11.01",
       "borderColor": "green"
     },
@@ -4697,6 +4867,8 @@ export const CATALOG: Catalog = {
       "error": false,
       "errorConfidence": "observed",
       "terminal": false,
+      "flowEnding": false,
+      "passthroughInputs": false,
       "requiresVersion": "2.11.01",
       "borderColor": "green"
     },
@@ -4790,6 +4962,8 @@ export const CATALOG: Catalog = {
       "error": false,
       "errorConfidence": "observed",
       "terminal": false,
+      "flowEnding": false,
+      "passthroughInputs": false,
       "requiresVersion": "2.20.01",
       "icon": "faRedo",
       "borderColor": "yellow"
@@ -4844,6 +5018,8 @@ export const CATALOG: Catalog = {
       "error": false,
       "errorConfidence": "observed",
       "terminal": false,
+      "flowEnding": false,
+      "passthroughInputs": false,
       "requiresVersion": "2.20.01",
       "icon": "faFilter",
       "borderColor": "yellow"
@@ -4893,6 +5069,8 @@ export const CATALOG: Catalog = {
       "error": false,
       "errorConfidence": "observed",
       "terminal": false,
+      "flowEnding": false,
+      "passthroughInputs": false,
       "requiresVersion": "2.11.01",
       "icon": "faClock",
       "borderColor": "yellow"
@@ -4997,6 +5175,8 @@ export const CATALOG: Catalog = {
       "error": true,
       "errorConfidence": "assumed",
       "terminal": false,
+      "flowEnding": false,
+      "passthroughInputs": false,
       "requiresVersion": "2.11.01",
       "icon": "faArrowRight",
       "borderColor": "green"
@@ -5026,6 +5206,8 @@ export const CATALOG: Catalog = {
       "error": false,
       "errorConfidence": "observed",
       "terminal": false,
+      "flowEnding": false,
+      "passthroughInputs": false,
       "requiresVersion": "2.11.01",
       "icon": "faQuestion",
       "borderColor": "orange"
@@ -5055,6 +5237,8 @@ export const CATALOG: Catalog = {
       "error": false,
       "errorConfidence": "observed",
       "terminal": false,
+      "flowEnding": false,
+      "passthroughInputs": false,
       "requiresVersion": "2.11.01",
       "icon": "faQuestion",
       "borderColor": "orange"
@@ -5120,6 +5304,8 @@ export const CATALOG: Catalog = {
       "error": false,
       "errorConfidence": "observed",
       "terminal": false,
+      "flowEnding": false,
+      "passthroughInputs": false,
       "requiresVersion": "2.11.01",
       "icon": "faQuestion",
       "borderColor": "orange"
@@ -5185,6 +5371,8 @@ export const CATALOG: Catalog = {
       "error": false,
       "errorConfidence": "observed",
       "terminal": false,
+      "flowEnding": false,
+      "passthroughInputs": false,
       "requiresVersion": "2.11.01",
       "icon": "faQuestion",
       "borderColor": "orange"
@@ -5240,6 +5428,8 @@ export const CATALOG: Catalog = {
       "error": false,
       "errorConfidence": "observed",
       "terminal": false,
+      "flowEnding": false,
+      "passthroughInputs": false,
       "requiresVersion": "2.11.01",
       "icon": "faQuestion",
       "borderColor": "orange"
@@ -5290,6 +5480,8 @@ export const CATALOG: Catalog = {
       "error": false,
       "errorConfidence": "observed",
       "terminal": false,
+      "flowEnding": false,
+      "passthroughInputs": false,
       "requiresVersion": "2.11.01",
       "icon": "faQuestion",
       "borderColor": "orange"
@@ -5347,6 +5539,8 @@ export const CATALOG: Catalog = {
       "error": false,
       "errorConfidence": "observed",
       "terminal": false,
+      "flowEnding": false,
+      "passthroughInputs": false,
       "requiresVersion": "2.11.01",
       "icon": "faQuestion",
       "borderColor": "orange"
@@ -5408,6 +5602,8 @@ export const CATALOG: Catalog = {
       "error": true,
       "errorConfidence": "assumed",
       "terminal": false,
+      "flowEnding": false,
+      "passthroughInputs": false,
       "requiresVersion": "2.11.01",
       "borderColor": "#6efefc"
     }

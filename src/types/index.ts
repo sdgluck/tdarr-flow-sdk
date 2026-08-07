@@ -17,3 +17,23 @@ export type {
   CatalogProvenance,
   PluginRefString,
 } from './catalog.ts';
+export type {
+  AudioStep,
+  AudioTarget,
+  ContainerMethod,
+  ContainerStep,
+  Destination,
+  ExtraAnchor,
+  ExtraNode,
+  FlowSpec,
+  HardwareBranch,
+  Notification,
+  OutputStep,
+  PolicyStep,
+  SizeGuard,
+  SourceStep,
+  TracksImplementation,
+  TracksStep,
+  VideoEncoder,
+  VideoStep,
+} from './spec.ts';

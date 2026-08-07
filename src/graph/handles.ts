@@ -18,6 +18,8 @@ export interface Shape {
   outputs: number;
   error: boolean;
   terminal: boolean;
+  /** Unwired outputs here are the normal end of a flow, not a dead end. */
+  flowEnding?: boolean;
   /**
    * `catalog` - read from a generated manifest.
    * `declared` - the caller stated it via localNode().
@@ -35,6 +37,7 @@ export function shapeOfRef(ref: string): Shape | undefined {
     outputs: entry.outputs.length,
     error: entry.error,
     terminal: entry.terminal,
+    flowEnding: entry.flowEnding,
     confidence: entry.error && entry.errorConfidence === 'assumed' ? 'assumed' : 'catalog',
   };
 }

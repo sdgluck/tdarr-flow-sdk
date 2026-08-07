@@ -78,7 +78,9 @@ export function encodeInputs(
   for (const [name, value] of Object.entries(inputs)) {
     if (value === undefined) continue;
 
-    if (entry && !entry.inputs.some((i) => i.name === name)) {
+    // A wrapper plugin's extra keys belong to the plugin it wraps, so there is
+    // nothing here to check them against.
+    if (entry && !entry.passthroughInputs && !entry.inputs.some((i) => i.name === name)) {
       const legal = entry.inputs.map((i) => i.name);
       throw new FlowBuildError(
         `${ref} has no input "${name}". `

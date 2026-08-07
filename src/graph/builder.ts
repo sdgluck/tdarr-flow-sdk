@@ -244,8 +244,16 @@ export class Cursor<R extends AnyRef = AnyRef> {
 
   /** Wire this cursor's output into an existing node without moving. */
   join(target: Cursor | string): Cursor<R> {
-    this.builder.connect(this.id, this.handle, typeof target === 'string' ? target : target.id);
+    this.wireTo(typeof target === 'string' ? target : target.id);
     return this;
+  }
+
+  /**
+   * @internal The one place an outgoing edge is actually created. `Junction`
+   * overrides it to fan several pending outputs into the same target.
+   */
+  wireTo(targetId: string): void {
+    this.builder.connect(this.id, this.handle, targetId);
   }
 
   /** Rename the node in place. */
@@ -266,6 +274,39 @@ export class Cursor<R extends AnyRef = AnyRef> {
   build(): FlowJson {
     return this.builder.build();
   }
+}
+
+/** A node output with nothing attached to it yet. */
+export interface Exit {
+  id: string;
+  handle: Handle;
+}
+
+/**
+ * Several loose outputs that should all converge on whatever comes next.
+ *
+ * Recipes need this because their branches converge on a node the *following*
+ * recipe owns and which therefore does not exist yet - in the reference
+ * pipeline, all four ways out of the video stage meet at the first node of the
+ * track-cleaning stage. A `Junction` lets a recipe finish and hand its loose
+ * ends to the composer, keeping `Segment`'s one-cursor-in, one-cursor-out shape.
+ */
+export class Junction extends Cursor {
+  readonly exits: readonly Exit[];
+
+  constructor(builder: FlowBuilder, exits: readonly Exit[], ref: AnyRef = '') {
+    if (!exits.length) throw new FlowBuildError('a junction needs at least one exit');
+    super(builder, exits[0]!.id, ref, exits[0]!.handle);
+    this.exits = exits;
+  }
+
+  override wireTo(targetId: string): void {
+    for (const exit of this.exits) this.builder.connect(exit.id, exit.handle, targetId);
+  }
+}
+
+export function junction(builder: FlowBuilder, exits: readonly Exit[]): Junction {
+  return new Junction(builder, exits);
 }
 
 // --- builder ----------------------------------------------------------------
@@ -372,14 +413,14 @@ export class FlowBuilder {
     // there, so the caller's next `.then()` leaves by handle 1 rather than
     // whatever handle the target cursor happened to be pointing at.
     if (next instanceof Cursor) {
-      this.connect(from.id, from.handle, next.id);
+      from.wireTo(next.id);
       return new Cursor(this, next.id, next.ref);
     }
 
     if (next.kind === 'segment') return next.apply(from);
 
     const cursor = this.add(next);
-    this.connect(from.id, from.handle, cursor.id);
+    from.wireTo(cursor.id);
     return cursor;
   }
 }

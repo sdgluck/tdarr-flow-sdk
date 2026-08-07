@@ -66,5 +66,52 @@ export {
   toFlowJson,
 } from './graph/serialize.ts';
 
+// --- lint -------------------------------------------------------------------
+export {
+  assertNoLintErrors,
+  buildContext,
+  catalogShapes,
+  formatFindings,
+  lint,
+  rules as lintRules,
+} from './lint/index.ts';
+export type {
+  LintContext,
+  LintFinding,
+  LintOptions,
+  LintRule,
+  LintSeverity,
+  NodeShape,
+  ShapeResolver,
+} from './lint/index.ts';
+
+// --- recipes and the spec compiler ------------------------------------------
+export {
+  cleanTracks,
+  compileSpec,
+  extrasSegment,
+  finalise,
+  migrateSpec,
+  newSpec,
+  noop,
+  normalizeAudio,
+  recipe,
+  remuxContainer,
+  sourceFile,
+  transcodeVideo,
+} from './recipes/index.ts';
+export type { CompileOptions, Recipe, RecipeMeta } from './recipes/index.ts';
+export { SPEC_VERSION, SpecVersionError } from './types/spec.ts';
+
+// --- import and recognition --------------------------------------------------
+export { difference, importFlow, isomorphic, Walk } from './recognise/index.ts';
+export type {
+  ImportOptions,
+  ImportResult,
+  Match,
+  MatchResult,
+} from './recognise/index.ts';
+export type { Difference } from './recognise/isomorphic.ts';
+
 // --- types ------------------------------------------------------------------
 export type * from './types/index.ts';

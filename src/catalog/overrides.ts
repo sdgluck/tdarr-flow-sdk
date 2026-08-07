@@ -69,3 +69,39 @@ export const ERROR_CAPABLE: Record<PluginRefString, ErrorOverride> = {
  * when that derivation is wrong.
  */
 export const TERMINAL_OVERRIDE: Record<PluginRefString, boolean> = {};
+
+/**
+ * Plugins whose `inputsDB` legitimately carries keys their own `details()` does
+ * not declare.
+ *
+ * The classic-plugin runners are wrappers: they take a `pluginSourceId` naming
+ * some other plugin, then forward every remaining input to it. Tdarr's editor
+ * renders the wrapped plugin's inputs dynamically, so the manifest cannot list
+ * them - the reference pipeline stores `tag_language`, `remove_commentary` and
+ * `remove_sdh` on a node whose manifest declares only `pluginSourceId`.
+ *
+ * Everywhere else an undeclared key is a typo worth catching, since a
+ * misspelled input is otherwise completely silent: the plugin just reads its
+ * default and carries on.
+ */
+export const PASSTHROUGH_INPUTS: Record<PluginRefString, string> = {
+  'runClassicTranscodePlugin@1.0.0': 'forwards inputs to the classic plugin it wraps',
+  'runClassicTranscodePlugin@2.0.0': 'forwards inputs to the classic plugin it wraps',
+  'runClassicFilterPlugin@1.0.0': 'forwards inputs to the classic plugin it wraps',
+};
+
+/**
+ * Plugins a flow conventionally ends on, even though they declare an output.
+ *
+ * `replaceOriginalFile` advertises "Continue to next plugin" and genuinely can
+ * be followed by a notification or a move - so it is *not* terminal, and wiring
+ * onward from it stays legal. But leaving its output unwired is the normal way
+ * to finish a flow, not an oversight, so `unwired-handle` would otherwise warn
+ * about every correct flow ever written.
+ *
+ * Kept deliberately short. A plugin belongs here only when the *absence* of an
+ * outgoing edge is the ordinary case, not merely a common one.
+ */
+export const FLOW_ENDING: Record<PluginRefString, string> = {
+  'replaceOriginalFile@1.0.0': 'commits the working file over the library file; the usual last node',
+};

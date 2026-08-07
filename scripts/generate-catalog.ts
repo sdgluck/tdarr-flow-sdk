@@ -16,7 +16,12 @@
 
 import { writeFileSync } from 'node:fs';
 import { join } from 'node:path';
-import { ERROR_CAPABLE, TERMINAL_OVERRIDE } from '../src/catalog/overrides.ts';
+import {
+  ERROR_CAPABLE,
+  FLOW_ENDING,
+  PASSTHROUGH_INPUTS,
+  TERMINAL_OVERRIDE,
+} from '../src/catalog/overrides.ts';
 import { discoverPlugins } from '../src/node/discover.ts';
 import { vendorInfo } from '../src/node/vendor.ts';
 import type { CatalogEntry, CatalogInput } from '../src/types/catalog.ts';
@@ -102,6 +107,8 @@ function buildEntries(): CatalogEntry[] {
       error: Boolean(errorOverride),
       errorConfidence: errorOverride?.confidence ?? 'observed',
       terminal: TERMINAL_OVERRIDE[ref] ?? outputs.length === 0,
+      flowEnding: ref in FLOW_ENDING,
+      passthroughInputs: ref in PASSTHROUGH_INPUTS,
     };
     if (details.requiresVersion) entry.requiresVersion = details.requiresVersion;
     if (details.icon) entry.icon = details.icon;
@@ -115,6 +122,8 @@ function buildEntries(): CatalogEntry[] {
   const stale = [
     ...Object.keys(ERROR_CAPABLE).filter((ref) => !seenOverrides.has(ref)),
     ...Object.keys(TERMINAL_OVERRIDE).filter((ref) => !entries.some((e) => e.ref === ref)),
+    ...Object.keys(FLOW_ENDING).filter((ref) => !entries.some((e) => e.ref === ref)),
+    ...Object.keys(PASSTHROUGH_INPUTS).filter((ref) => !entries.some((e) => e.ref === ref)),
   ];
   if (stale.length) {
     throw new Error(

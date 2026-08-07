@@ -58,6 +58,17 @@ export interface CatalogEntry {
   errorConfidence: 'observed' | 'assumed';
   /** No outputs: the flow ends here (e.g. `failFlow`). */
   terminal: boolean;
+  /**
+   * Declares an output, but leaving it unwired is the ordinary way to finish a
+   * flow rather than an oversight. Suppresses `unwired-handle` without making
+   * the node terminal - chaining onward stays legal. See catalog/overrides.ts.
+   */
+  flowEnding: boolean;
+  /**
+   * `inputsDB` may carry keys this manifest does not declare, because the
+   * plugin forwards them to another one. See catalog/overrides.ts.
+   */
+  passthroughInputs: boolean;
 }
 
 export interface CatalogProvenance {
