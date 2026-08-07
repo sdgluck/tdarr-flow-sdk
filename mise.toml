@@ -1,0 +1,5 @@
+[tools]
+node = "24"
+# npm backend rather than the default aqua one: pnpm ships no standalone
+# darwin/x64 binary, and aqua has no fallback for it.
+"npm:pnpm" = "11.20.0"

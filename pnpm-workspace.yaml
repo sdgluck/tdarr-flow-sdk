@@ -1,0 +1,4 @@
+# pnpm 10+ refuses to run dependency build scripts unless they are allowed here.
+# esbuild (via vitest) needs its postinstall to fetch its platform binary.
+allowBuilds:
+  esbuild: true

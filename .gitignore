@@ -1,0 +1,8 @@
+# Anchored: vendor/methods/node_modules is part of the vendored upstream source,
+# not an install artifact. vendor/methods/lib.js requires it by relative path
+# ('./node_modules/import-fresh'), so ignoring it silently breaks stock plugins
+# on any fresh clone.
+/node_modules
+.DS_Store
+*.log
+coverage

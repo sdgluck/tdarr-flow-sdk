@@ -1,0 +1,52 @@
+{
+  "name": "tdarr-flow-sdk",
+  "version": "0.1.0",
+  "description": "A typed SDK for building Tdarr flows: a plugin catalog, a fluent graph builder, opinionated recipes, and a browser-safe linter.",
+  "type": "module",
+  "license": "MIT",
+  "exports": {
+    ".": "./src/index.ts",
+    "./catalog": "./src/catalog/index.ts",
+    "./lint": "./src/lint/index.ts",
+    "./recipes": "./src/recipes/index.ts",
+    "./types": "./src/types/index.ts",
+    "./node": "./src/node/index.ts"
+  },
+  "types": "./src/index.ts",
+  "files": [
+    "src",
+    "vendor",
+    "README.md"
+  ],
+  "engines": {
+    "node": ">=24.0.0"
+  },
+  "packageManager": "pnpm@11.20.0",
+  "scripts": {
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "typecheck": "tsc --noEmit",
+    "lint": "oxlint src test scripts",
+    "lint:fix": "oxlint --fix src test scripts",
+    "check": "pnpm typecheck && pnpm lint && pnpm catalog:check && pnpm test",
+    "prepare": "husky",
+    "plugins:update": "node scripts/update-plugins.ts",
+    "plugins:check": "node scripts/check-plugins.ts",
+    "catalog:generate": "node scripts/generate-catalog.ts",
+    "catalog:check": "node scripts/check-catalog.ts"
+  },
+  "keywords": [
+    "tdarr",
+    "flow",
+    "builder",
+    "ffmpeg"
+  ],
+  "devDependencies": {
+    "@types/node": "^24.13.3",
+    "husky": "^9.1.7",
+    "lint-staged": "^17.3.0",
+    "oxlint": "^1.62.0",
+    "typescript": "^6.0.3",
+    "vitest": "^2.1.0"
+  }
+}
