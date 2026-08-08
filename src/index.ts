@@ -10,6 +10,11 @@
 export {
   catalog,
   defaultInputs,
+  findClassicPlugin,
+  fuzzyScore,
+  fuzzySearch,
+  listClassicPlugins,
+  searchClassicPlugins,
   evaluateDisplayConditions,
   findPlugin,
   getPlugin,
@@ -29,6 +34,8 @@ export type {
   PluginInputs,
   PluginRef,
 } from './catalog/inputs.generated.ts';
+export type { ClassicPluginEntry, FuzzyResult } from './catalog/index.ts';
+export type { ClassicPluginInput } from './types/classic.ts';
 export * as plugins from './catalog/factories.generated.ts';
 
 // --- graph ------------------------------------------------------------------
@@ -103,6 +110,23 @@ export {
 } from './recipes/index.ts';
 export type { CompiledFlow, CompileOptions, Recipe, RecipeMeta, Stage } from './recipes/index.ts';
 export { SPEC_VERSION, SpecVersionError } from './types/spec.ts';
+
+// --- custom ffmpeg arguments -------------------------------------------------
+export {
+  completeFlag,
+  describeCommand,
+  FFMPEG_FLAGS,
+  lintFfmpegArgs,
+  tokenizeArgs,
+} from './ffmpeg/args.ts';
+export type {
+  ArgFinding,
+  ArgPosition,
+  ArgToken,
+  CommandPart,
+  FfmpegFlag,
+  LintArgsOptions,
+} from './ffmpeg/args.ts';
 
 // --- import and recognition --------------------------------------------------
 export { difference, importFlow, isomorphic, Walk } from './recognise/index.ts';

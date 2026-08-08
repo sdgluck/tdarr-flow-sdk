@@ -6,6 +6,7 @@
   "vendoredPaths": [
     "FlowPlugins/CommunityFlowPlugins",
     "FlowPlugins/FlowHelpers",
-    "methods"
+    "methods",
+    "Community"
   ]
 }

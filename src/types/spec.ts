@@ -34,18 +34,33 @@ export interface SourceStep {
 
 // --- container --------------------------------------------------------------
 
+/**
+ * Arguments spliced into the ffmpeg command Tdarr is already assembling, on
+ * either side of the input it supplies. Not a whole command line: the input and
+ * the output are Tdarr's to name.
+ */
+export interface FfmpegArguments {
+  /** Before `-i`. Decoder and probing options. */
+  input?: string;
+  /** After `-i`. Everything else. */
+  output?: string;
+}
+
 export type ContainerMethod =
   | {
     kind: 'classic';
     /** e.g. `Local:Tdarr_Plugin_bsh1_RemuxMKV`. */
     pluginSourceId: string;
+    /** Forwarded to the classic plugin, which declares its own inputs. */
+    inputs?: Record<string, string>;
     /**
      * Tried when the primary remux fails - a more aggressive rebuild. Its own
      * failure is reset and the flow continues with the original file.
      */
     fallbackPluginSourceId?: string;
+    fallbackInputs?: Record<string, string>;
   }
-  | { kind: 'ffmpeg'; forceConform: boolean };
+  | { kind: 'ffmpeg'; forceConform: boolean; customArguments?: FfmpegArguments };
 
 export interface ContainerStep {
   mode: 'leave' | 'remux';
@@ -73,6 +88,8 @@ export interface HardwareBranch {
   flowVariable: string;
   equals: string;
   pluginSourceId: string;
+  /** Forwarded to the classic plugin, which declares its own inputs. */
+  inputs?: Record<string, string>;
 }
 
 export type VideoEncoder =
@@ -82,6 +99,7 @@ export type VideoEncoder =
     branches: HardwareBranch[];
     /** Used when no branch matches, and as the landing spot for a branch failure. */
     fallbackPluginSourceId: string;
+    fallbackInputs?: Record<string, string>;
     /** Wire each hardware encoder's err1 to the fallback encoder. */
     errorFallsBackToCpu: boolean;
   }
@@ -102,6 +120,7 @@ export type VideoEncoder =
     tenBit?: boolean;
     hdrToSdr?: boolean;
     cropBlackBars?: boolean;
+    customArguments?: FfmpegArguments;
   };
 
 /**
@@ -141,6 +160,7 @@ export type TracksImplementation =
       valuesToRemove: string;
       condition: 'equals' | 'not_equals';
     }>;
+    customArguments?: FfmpegArguments;
   };
 
 export interface TracksStep {
@@ -185,6 +205,7 @@ export interface AudioStep {
     outputs: number;
   };
   reorder?: { processOrder: 'streamTypes'; streamTypes: string };
+  customArguments?: FfmpegArguments;
 }
 
 // --- output -----------------------------------------------------------------

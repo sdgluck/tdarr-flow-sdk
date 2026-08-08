@@ -3,7 +3,7 @@ import { Junction } from '../graph/builder.ts';
 import type { Cursor, Exit } from '../graph/builder.ts';
 import { ffmpegCommand } from '../graph/ffmpegCommand.ts';
 import type { ContainerStep } from '../types/spec.ts';
-import { recipe } from './types.ts';
+import { recipe, withCustomArguments } from './types.ts';
 import type { Recipe } from './types.ts';
 
 /**
@@ -26,13 +26,13 @@ export function remuxContainer(step: ContainerStep): Recipe {
     if (step.mode === 'leave') return entry;
 
     if (step.method.kind === 'ffmpeg') {
-      const forceConform = step.method.forceConform;
-      return entry.then(
-        ffmpegCommand().container(
-          { container: step.target, forceConform },
-          { name: `Force ${step.target.toUpperCase()} Container` },
-        ),
+      const { forceConform, customArguments } = step.method;
+      const block = ffmpegCommand().container(
+        { container: step.target, forceConform },
+        { name: `Force ${step.target.toUpperCase()} Container` },
       );
+      withCustomArguments(block, customArguments);
+      return entry.then(block);
     }
 
     const builder = entry.builder;
@@ -55,12 +55,14 @@ export function remuxContainer(step: ContainerStep): Recipe {
       exits.push({ id: gate.id, handle: 2 });
     };
 
-    const attempt = (pluginSourceId: string, name: string) =>
-      entry.builder.add(plugins.runClassicTranscodePlugin({ pluginSourceId }, { name }));
+    const attempt = (pluginSourceId: string, name: string, inputs?: Record<string, string>) =>
+      entry.builder.add(
+        plugins.runClassicTranscodePlugin({ pluginSourceId, ...inputs }, { name }),
+      );
 
     const primary = entry.then(
       plugins.runClassicTranscodePlugin(
-        { pluginSourceId: method.pluginSourceId },
+        { pluginSourceId: method.pluginSourceId, ...method.inputs },
         { name: 'Remux & Heal Container' },
       ),
     );
@@ -76,7 +78,7 @@ export function remuxContainer(step: ContainerStep): Recipe {
       return new Junction(builder, exits);
     }
 
-    const forced = attempt(method.fallbackPluginSourceId, 'Force Remux');
+    const forced = attempt(method.fallbackPluginSourceId, 'Force Remux', method.fallbackInputs);
     const toForced = builder.add(plugins.resetFlowError({}, { offSpine: true }));
     builder.connect(toForced.id, 1, forced.id);
 

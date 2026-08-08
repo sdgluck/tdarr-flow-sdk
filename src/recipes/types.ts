@@ -26,3 +26,25 @@ export function recipe(
 export function noop(name: string, params: unknown): Recipe {
   return recipe(name, params, (cursor) => cursor);
 }
+
+/**
+ * Applies custom ffmpeg arguments to a command block, if there are any.
+ *
+ * Placed last in the block on purpose: ffmpeg takes the final occurrence of a
+ * repeated option, so arguments a user wrote by hand override the ones the
+ * wizard generated rather than being quietly discarded by them. That is the
+ * behaviour someone reaching for a raw argument field is asking for.
+ */
+export function withCustomArguments(
+  block: { custom(inputs: { inputArguments?: string; outputArguments?: string }): unknown },
+  args: { input?: string; output?: string } | undefined,
+): void {
+  const input = args?.input?.trim();
+  const output = args?.output?.trim();
+  if (!input && !output) return;
+
+  block.custom({
+    ...(input ? { inputArguments: input } : {}),
+    ...(output ? { outputArguments: output } : {}),
+  });
+}

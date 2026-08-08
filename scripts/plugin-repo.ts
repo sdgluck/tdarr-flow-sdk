@@ -15,6 +15,10 @@ export const WANTED = [
   'FlowPlugins/CommunityFlowPlugins',
   'FlowPlugins/FlowHelpers',
   'methods',
+  // The classic (pre-flow) plugins. Flows still run them through
+  // `runClassicTranscodePlugin`, and their ids are what a user would otherwise
+  // have to type from memory.
+  'Community',
 ];
 
 export const packageRoot = join(dirname(fileURLToPath(import.meta.url)), '..');

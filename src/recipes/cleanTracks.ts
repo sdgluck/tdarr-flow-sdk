@@ -3,7 +3,7 @@ import { Junction } from '../graph/builder.ts';
 import type { Exit } from '../graph/builder.ts';
 import { ffmpegCommand } from '../graph/ffmpegCommand.ts';
 import type { TracksStep } from '../types/spec.ts';
-import { recipe } from './types.ts';
+import { recipe, withCustomArguments } from './types.ts';
 import type { Recipe } from './types.ts';
 
 /**
@@ -30,6 +30,7 @@ export function cleanTracks(step: TracksStep): Recipe {
           condition: rule.condition,
         });
       }
+      withCustomArguments(block, config.customArguments);
       return entry.then(block);
     }
 

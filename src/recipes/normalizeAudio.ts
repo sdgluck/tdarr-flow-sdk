@@ -3,7 +3,7 @@ import { localNode } from '../graph/builder.ts';
 import type { Cursor } from '../graph/builder.ts';
 import { ffmpegCommand } from '../graph/ffmpegCommand.ts';
 import type { AudioStep, AudioTarget, ContainerStep } from '../types/spec.ts';
-import { recipe } from './types.ts';
+import { recipe, withCustomArguments } from './types.ts';
 import type { Recipe } from './types.ts';
 
 /**
@@ -130,6 +130,7 @@ export function normalizeAudio(step: AudioStep, container?: ContainerStep): Reci
       );
     }
 
+    withCustomArguments(block, step.customArguments);
     return entry.then(block);
   });
 }

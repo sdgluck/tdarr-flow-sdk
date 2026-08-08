@@ -266,7 +266,7 @@ export const CATALOG: Catalog = {
           "ui": {
             "type": "text"
           },
-          "tooltip": "Target integrated loudness in LUFS (Loudness Units relative to Full Scale). \\n\n              This is the average perceptual loudness the output file will be normalized to. \\n\n              Common values: \\n\n              -14.0 = Spotify / YouTube streaming standard \\n\n              -16.0 = Apple Music / AES streaming recommendation \\n\n              -23.0 = EBU R128 broadcast standard (default) \\n"
+          "tooltip": "Target integrated loudness in LUFS (Loudness Units relative to Full Scale).\n\nThis is the average perceptual loudness the output file will be normalized to.\n\nCommon values:\n\n-14.0 = Spotify / YouTube streaming standard\n\n-16.0 = Apple Music / AES streaming recommendation\n\n-23.0 = EBU R128 broadcast standard (default)"
         },
         {
           "name": "lra",
@@ -276,7 +276,7 @@ export const CATALOG: Catalog = {
           "ui": {
             "type": "text"
           },
-          "tooltip": "Target loudness range in LU (Loudness Units). \\n\n              Controls how much dynamic variation is allowed between quiet and loud sections. \\n\n              A lower value produces more consistent loudness throughout the file. \\n\n              A higher value preserves more of the original dynamic range. \\n\n              Typical values: \\n\n              3.0-7.0 = Compressed / consistent (speech, podcasts) \\n\n              7.0-15.0 = Moderate dynamics (most music, TV) \\n\n              15.0-20.0 = Wide dynamics (classical, film) \\n\n              Defaults to 7.0"
+          "tooltip": "Target loudness range in LU (Loudness Units).\n\nControls how much dynamic variation is allowed between quiet and loud sections.\n\nA lower value produces more consistent loudness throughout the file.\n\nA higher value preserves more of the original dynamic range.\n\nTypical values:\n\n3.0-7.0 = Compressed / consistent (speech, podcasts)\n\n7.0-15.0 = Moderate dynamics (most music, TV)\n\n15.0-20.0 = Wide dynamics (classical, film)\n\nDefaults to 7.0"
         },
         {
           "name": "tp",
@@ -286,7 +286,7 @@ export const CATALOG: Catalog = {
           "ui": {
             "type": "text"
           },
-          "tooltip": "Maximum true peak level in dBTP (decibels True Peak). \\n\n              True peak accounts for inter-sample peaks that occur after digital-to-analogue \\n\n              conversion or codec processing, and should be kept below 0 dBTP to prevent clipping. \\n\n              Common values: \\n\n              -1.0 = EBU R128 / streaming platform recommended ceiling \\n\n              -2.0 = Conservative headroom for lossy codec safety (default) \\n"
+          "tooltip": "Maximum true peak level in dBTP (decibels True Peak).\n\nTrue peak accounts for inter-sample peaks that occur after digital-to-analogue\n\nconversion or codec processing, and should be kept below 0 dBTP to prevent clipping.\n\nCommon values:\n\n-1.0 = EBU R128 / streaming platform recommended ceiling\n\n-2.0 = Conservative headroom for lossy codec safety (default)"
         },
         {
           "name": "maxGain",
@@ -296,7 +296,7 @@ export const CATALOG: Catalog = {
           "ui": {
             "type": "text"
           },
-          "tooltip": "Maximum gain in Loudness Units that will be applied. \\n\n              If the required gain exceeds this value, normalization is skipped \\n\n              to avoid amplifying noise in mostly-quiet files. \\n\n              Defaults to 15"
+          "tooltip": "Maximum gain in Loudness Units that will be applied.\n\nIf the required gain exceeds this value, normalization is skipped\n\nto avoid amplifying noise in mostly-quiet files.\n\nDefaults to 15"
         }
       ],
       "outputs": [
@@ -1363,7 +1363,7 @@ export const CATALOG: Catalog = {
               "not_equals"
             ]
           },
-          "tooltip": "How should the plugin match your values?\n\n• \"includes\" - Find streams that HAVE any of your values\n  Example: If checking for \"aac,mp3\" audio, streams with aac OR mp3 will match\n\n• \"not_includes\" - Find streams that DON'T have any of your values\n  Example: If checking for \"aac,mp3\" audio, only streams with neither aac nor mp3 will match\n\n• \"equals\" - Find streams where the property exactly matches your values\n  Example: If checking width for \"1920\", only streams that are exactly 1920 pixels wide will match\n\n• \"not_equals\" - Find streams where the property doesn't exactly match any of your values\n  Example: If checking width for \"1920\", streams that are NOT exactly 1920 pixels wide will match\n\nMost users want \"includes\" to find streams that have what they're looking for."
+          "tooltip": "How should the plugin match your values?\n\n• \"includes\" - Find streams that HAVE any of your values\nExample: If checking for \"aac,mp3\" audio, streams with aac OR mp3 will match\n\n• \"not_includes\" - Find streams that DON'T have any of your values\nExample: If checking for \"aac,mp3\" audio, only streams with neither aac nor mp3 will match\n\n• \"equals\" - Find streams where the property exactly matches your values\nExample: If checking width for \"1920\", only streams that are exactly 1920 pixels wide will match\n\n• \"not_equals\" - Find streams where the property doesn't exactly match any of your values\nExample: If checking width for \"1920\", streams that are NOT exactly 1920 pixels wide will match\n\nMost users want \"includes\" to find streams that have what they're looking for."
         }
       ],
       "outputs": [
@@ -1426,7 +1426,7 @@ export const CATALOG: Catalog = {
           "ui": {
             "type": "text"
           },
-          "tooltip": "Specify the process order.\nFor example, if 'languages' is first, the streams will be ordered based on that first.\nSo put the most important properties last.\nThe default order is suitable for most people.\n\n        \\nExample:\\n\n        codecs,channels,languages,streamTypes"
+          "tooltip": "Specify the process order.\nFor example, if 'languages' is first, the streams will be ordered based on that first.\nSo put the most important properties last.\nThe default order is suitable for most people.\n\nExample:\ncodecs,channels,languages,streamTypes"
         },
         {
           "name": "languages",
@@ -1436,7 +1436,7 @@ export const CATALOG: Catalog = {
           "ui": {
             "type": "text"
           },
-          "tooltip": "Specify the language tags order, separated by commas. Leave blank to disable.\n        \\nExample:\\n\n        eng,fre"
+          "tooltip": "Specify the language tags order, separated by commas. Leave blank to disable.\n\nExample:\neng,fre"
         },
         {
           "name": "channels",
@@ -1446,7 +1446,7 @@ export const CATALOG: Catalog = {
           "ui": {
             "type": "text"
           },
-          "tooltip": "Specify the channels order, separated by commas. Leave blank to disable.\n\n          \\nExample:\\n\n          7.1,5.1,2,1"
+          "tooltip": "Specify the channels order, separated by commas. Leave blank to disable.\n\nExample:\n7.1,5.1,2,1"
         },
         {
           "name": "codecs",
@@ -1456,7 +1456,7 @@ export const CATALOG: Catalog = {
           "ui": {
             "type": "text"
           },
-          "tooltip": "Specify the codec order, separated by commas. Leave blank to disable.\n\n          \\nExample:\\n\n          aac,ac3"
+          "tooltip": "Specify the codec order, separated by commas. Leave blank to disable.\n\nExample:\naac,ac3"
         },
         {
           "name": "streamTypes",
@@ -1466,7 +1466,7 @@ export const CATALOG: Catalog = {
           "ui": {
             "type": "text"
           },
-          "tooltip": "Specify the streamTypes order, separated by commas. Leave blank to disable.\n        \\nExample:\\n\n        video,audio,subtitle"
+          "tooltip": "Specify the streamTypes order, separated by commas. Leave blank to disable.\n\nExample:\nvideo,audio,subtitle"
         }
       ],
       "outputs": [
@@ -1958,7 +1958,7 @@ export const CATALOG: Catalog = {
           "ui": {
             "type": "text"
           },
-          "tooltip": "Set the absolute path to the file to which the hash will be calculated. Variable templating is allowed.\n\n      https://docs.tdarr.io/docs/plugins/flow-plugins/basics#plugin-variable-templating\n\n      For Example,\n\n      Original file\n      {{{ args.originalLibraryFile._id }}}\n\n      Working file\n      {{{ args.inputFileObj._id }}}"
+          "tooltip": "Set the absolute path to the file to which the hash will be calculated. Variable templating is allowed.\n\nhttps://docs.tdarr.io/docs/plugins/flow-plugins/basics#plugin-variable-templating\n\nFor Example,\n\nOriginal file\n{{{ args.originalLibraryFile._id }}}\n\nWorking file\n{{{ args.inputFileObj._id }}}"
         },
         {
           "name": "variable",
@@ -1968,7 +1968,7 @@ export const CATALOG: Catalog = {
           "ui": {
             "type": "text"
           },
-          "tooltip": "Variable to set.\n\n      Example\n      fileHash\n\n      You can then check this in the 'Check Flow Variable' plugin {{{args.variables.user.fileHash}}}\n      against another value such as {{{args.variables.user.otherFileHash}}}"
+          "tooltip": "Variable to set.\n\nExample:\nfileHash\n\nYou can then check this in the 'Check Flow Variable' plugin {{{args.variables.user.fileHash}}}\nagainst another value such as {{{args.variables.user.otherFileHash}}}"
         }
       ],
       "outputs": [
@@ -2480,7 +2480,7 @@ export const CATALOG: Catalog = {
               "not_equals"
             ]
           },
-          "tooltip": "How should the plugin match your values?\n\n• \"includes\" - Find files that HAVE any of your values\n  Example: If checking for \"aac,mp3\" audio, files with aac OR mp3 will match\n\n• \"not_includes\" - Find files that DON'T have any of your values\n  Example: If checking for \"aac,mp3\" audio, only files with neither aac nor mp3 will match\n\n• \"equals\" - Find files where the property exactly matches your values\n  Example: If checking width for \"1920\", only files that are exactly 1920 pixels wide will match\n\n• \"not_equals\" - Find files where the property doesn't exactly match any of your values\n  Example: If checking width for \"1920\", files that are NOT exactly 1920 pixels wide will match\n\nMost users want \"includes\" to find files that have what they're looking for."
+          "tooltip": "How should the plugin match your values?\n\n• \"includes\" - Find files that HAVE any of your values\nExample: If checking for \"aac,mp3\" audio, files with aac OR mp3 will match\n\n• \"not_includes\" - Find files that DON'T have any of your values\nExample: If checking for \"aac,mp3\" audio, only files with neither aac nor mp3 will match\n\n• \"equals\" - Find files where the property exactly matches your values\nExample: If checking width for \"1920\", only files that are exactly 1920 pixels wide will match\n\n• \"not_equals\" - Find files where the property doesn't exactly match any of your values\nExample: If checking width for \"1920\", files that are NOT exactly 1920 pixels wide will match\n\nMost users want \"includes\" to find files that have what they're looking for."
         }
       ],
       "outputs": [
@@ -2581,7 +2581,7 @@ export const CATALOG: Catalog = {
           "ui": {
             "type": "text"
           },
-          "tooltip": "Specify lower bound.Default value is 99.5% so new file duration must be at least 40% of original file duration."
+          "tooltip": "Specify lower bound. Default value is 99.5% so new file duration must be at least 40% of original file duration."
         },
         {
           "name": "lessThan",
@@ -2718,7 +2718,7 @@ export const CATALOG: Catalog = {
           "ui": {
             "type": "text"
           },
-          "tooltip": "Specify lower bound.Default value is 40% so new file size must be at least 40% of original file size."
+          "tooltip": "Specify lower bound. Default value is 40% so new file size must be at least 40% of original file size."
         },
         {
           "name": "lessThan",
@@ -2772,7 +2772,7 @@ export const CATALOG: Catalog = {
           "ui": {
             "type": "switch"
           },
-          "tooltip": "Enable or disable this plugin. For example you may want to enable it for one transcoding block and then\n      disable it for another block."
+          "tooltip": "Enable or disable this plugin. For example you may want to enable it for one transcoding block and then\ndisable it for another block."
         },
         {
           "name": "compareMethod",
@@ -2786,7 +2786,7 @@ export const CATALOG: Catalog = {
               "currentSize"
             ]
           },
-          "tooltip": "Specify the method to compare.\n      Estimated Final Size: Compare the estimated final output size to the input size.\n      Current Size: Compare the current output size to the input size.",
+          "tooltip": "Specify the method to compare.\nEstimated Final Size: Compare the estimated final output size to the input size.\nCurrent Size: Compare the current output size to the input size.",
           "displayConditions": {
             "logic": "AND",
             "sets": [
@@ -2811,7 +2811,7 @@ export const CATALOG: Catalog = {
           "ui": {
             "type": "text"
           },
-          "tooltip": "Enter the upper threshold size percentage relative to the input size.\n      An error will be triggered (with errorType set to 'upperThreshold') if the estimated or current size exceeds\n      this percentage.\n\n      For example, if the input size is 100MB and the threshold is 60%, the estimated final size or current size\n      must not surpass 60MB else an error will be given and processing will stop.",
+          "tooltip": "Enter the upper threshold size percentage relative to the input size.\nAn error will be triggered (with errorType set to 'upperThreshold') if the estimated or current size exceeds\nthis percentage.\n\nFor example, if the input size is 100MB and the threshold is 60%, the estimated final size or current size\nmust not surpass 60MB else an error will be given and processing will stop.",
           "displayConditions": {
             "logic": "AND",
             "sets": [
@@ -2836,7 +2836,7 @@ export const CATALOG: Catalog = {
           "ui": {
             "type": "text"
           },
-          "tooltip": "Enter the lower threshold size percentage relative to the input size.\n      An error will be triggered (with errorType set to 'lowerThreshold') if the estimated final size falls below\n      this percentage.\n\n      For example, if the input size is 100MB and the lower threshold is 20%, an error will be given if\n      the estimated final size drops below 20MB.\n\n      Only applies to the 'estimatedFinalSize' compare method, since 'currentSize' starts at zero and\n      would always trip the lower bound. Set to 0 to disable.",
+          "tooltip": "Enter the lower threshold size percentage relative to the input size.\nAn error will be triggered (with errorType set to 'lowerThreshold') if the estimated final size falls below\nthis percentage.\n\nFor example, if the input size is 100MB and the lower threshold is 20%, an error will be given if\nthe estimated final size drops below 20MB.\n\nOnly applies to the 'estimatedFinalSize' compare method, since 'currentSize' starts at zero and\nwould always trip the lower bound. Set to 0 to disable.",
           "displayConditions": {
             "logic": "AND",
             "sets": [
@@ -2965,7 +2965,7 @@ export const CATALOG: Catalog = {
           "ui": {
             "type": "switch"
           },
-          "tooltip": "Specify whether to copy/move all files in the directory (excluding the original and working file)\n       or use the input below to specify file extensions"
+          "tooltip": "Specify whether to copy/move all files in the directory (excluding the original and working file)\nor use the input below to specify file extensions"
         },
         {
           "name": "fileExtensions",
@@ -3036,7 +3036,7 @@ export const CATALOG: Catalog = {
           "ui": {
             "type": "switch"
           },
-          "tooltip": "Specify whether to keep the relative path.\n\nFor example:\n\n\\n Source folder:\n\\n C:/input/\n\n\\n Source file:\n\\n C:/input/test1/test2/qsv_h264.mkv\n\n\\n Copy to Directory Output Directory\n\\n C:/output/\n\n\\n Keep Relative Path disabled:\n\\n C:/output/qsv_h264.mkv\n\n\\n Keep Relative Path enabled:\n\\n C:/output/test1/test2/qsv_h264.mkv"
+          "tooltip": "Specify whether to keep the relative path.\n\nFor example:\n\nSource folder:\n\nC:/input/\n\nSource file:\n\nC:/input/test1/test2/qsv_h264.mkv\n\nCopy to Directory Output Directory\n\nC:/output/\n\nKeep Relative Path disabled:\n\nC:/output/qsv_h264.mkv\n\nKeep Relative Path enabled:\n\nC:/output/test1/test2/qsv_h264.mkv"
         },
         {
           "name": "makeWorkingFile",
@@ -3218,7 +3218,7 @@ export const CATALOG: Catalog = {
           "ui": {
             "type": "switch"
           },
-          "tooltip": "Specify whether to keep the relative path.\n\nFor example:\n\n\\n Source folder:\n\\n C:/input/\n\n\\n Source file:\n\\n C:/input/test1/test2/qsv_h264.mkv\n\n\\n Move to Directory Output Directory\n\\n C:/output/\n\n\\n Keep Relative Path disabled:\n\\n C:/output/qsv_h264.mkv\n\n\\n Keep Relative Path enabled:\n\\n C:/output/test1/test2/qsv_h264.mkv"
+          "tooltip": "Specify whether to keep the relative path.\n\nFor example:\n\nSource folder:\n\nC:/input/\n\nSource file:\n\nC:/input/test1/test2/qsv_h264.mkv\n\nMove to Directory Output Directory\n\nC:/output/\n\nKeep Relative Path disabled:\n\nC:/output/qsv_h264.mkv\n\nKeep Relative Path enabled:\n\nC:/output/test1/test2/qsv_h264.mkv"
         }
       ],
       "outputs": [
@@ -3490,7 +3490,7 @@ export const CATALOG: Catalog = {
               "customPath"
             ]
           },
-          "tooltip": "Select which file to set as the working file.\n\n      \\nExample\\n\n      originalFile - resets to the original library file\n\n      \\nExample\\n\n      customPath - uses a custom path (e.g. from a flow variable)"
+          "tooltip": "Select which file to set as the working file.\n\nExample:\noriginalFile - resets to the original library file\n\nExample:\ncustomPath - uses a custom path (e.g. from a flow variable)"
         },
         {
           "name": "customPath",
@@ -3500,7 +3500,7 @@ export const CATALOG: Catalog = {
           "ui": {
             "type": "text"
           },
-          "tooltip": "The custom file path to set as the working file.\n      Supports templating.\n\n      \\nExample\\n\n      {{{args.variables.user.cachedFile}}}",
+          "tooltip": "The custom file path to set as the working file.\nSupports templating.\n\nExample:\n{{{args.variables.user.cachedFile}}}",
           "displayConditions": {
             "logic": "AND",
             "sets": [
@@ -3814,7 +3814,7 @@ export const CATALOG: Catalog = {
           "ui": {
             "type": "text"
           },
-          "tooltip": "Input your arr host here.\\nExample:\\nhttp://192.168.1.1:7878\\nhttp://192.168.1.1:8989\\nhttps://radarr.domain.com\\nhttps://sonarr.domain.com\\n"
+          "tooltip": "Input your arr host here.\nExample:\nhttp://192.168.1.1:7878\nhttp://192.168.1.1:8989\nhttps://radarr.domain.com\nhttps://sonarr.domain.com"
         }
       ],
       "outputs": [
@@ -3854,7 +3854,7 @@ export const CATALOG: Catalog = {
           "ui": {
             "type": "textarea"
           },
-          "tooltip": "Visit the following for more information on Apprise: https://github.com/caronc/apprise\n      \\nExample\\n\n     -vv -t \"Success\" -b \"File {{{args.inputFileObj._id}}}\" \"discord://xxx/xxxx\"\n\n\n     \\nExample\\n\n     -vv -t \"Processing\" -b \"File {{{args.inputFileObj._id}}}\" \"discord://{{{args.userVariables.global.discord_webhook}}}\""
+          "tooltip": "Visit the following for more information on Apprise: https://github.com/caronc/apprise\n\nExample:\n-vv -t \"Success\" -b \"File {{{args.inputFileObj._id}}}\" \"discord://xxx/xxxx\"\n\nExample:\n-vv -t \"Processing\" -b \"File {{{args.inputFileObj._id}}}\" \"discord://{{{args.userVariables.global.discord_webhook}}}\""
         },
         {
           "name": "apprisePath",
@@ -3864,7 +3864,7 @@ export const CATALOG: Catalog = {
           "ui": {
             "type": "text"
           },
-          "tooltip": "Specify the path to the Apprise executable.If the path is not specified, the plugin will use the default path."
+          "tooltip": "Specify the path to the Apprise executable. If the path is not specified, the plugin will use the default path."
         }
       ],
       "outputs": [
@@ -3900,7 +3900,7 @@ export const CATALOG: Catalog = {
           "ui": {
             "type": "text"
           },
-          "tooltip": "Specify the name of an existing flow variable containing a numeric value to perform arithmetic on.\n      The variable must exist and contain a valid number.\n\n      \\nExample\\n\n      {{{args.variables.user.transcodeStage}}}"
+          "tooltip": "Specify the name of an existing flow variable containing a numeric value to perform arithmetic on.\nThe variable must exist and contain a valid number.\n\nExample:\n{{{args.variables.user.transcodeStage}}}"
         },
         {
           "name": "operation",
@@ -3916,7 +3916,7 @@ export const CATALOG: Catalog = {
               "/"
             ]
           },
-          "tooltip": "Select the arithmetic operation to apply to the variable.\n\n      + : Add the quantity to the variable\n      - : Subtract the quantity from the variable\n      * : Multiply the variable by the quantity\n      / : Divide the variable by the quantity (quantity cannot be 0)"
+          "tooltip": "Select the arithmetic operation to apply to the variable.\n\n+ : Add the quantity to the variable\n- : Subtract the quantity from the variable\n* : Multiply the variable by the quantity\n/ : Divide the variable by the quantity (quantity cannot be 0)"
         },
         {
           "name": "quantity",
@@ -3926,7 +3926,7 @@ export const CATALOG: Catalog = {
           "ui": {
             "type": "text"
           },
-          "tooltip": "Specify the numeric value to use in the arithmetic operation.\n      Must be a valid number. Cannot be 0 when using division.\n\n      \\nExample\\n\n      1\n\n      \\nExample\\n\n      5.5\n\n      \\nExample\\n\n      -10"
+          "tooltip": "Specify the numeric value to use in the arithmetic operation.\nMust be a valid number. Cannot be 0 when using division.\n\nExample:\n1\n\nExample:\n5.5\n\nExample:\n-10"
         }
       ],
       "outputs": [
@@ -3962,7 +3962,7 @@ export const CATALOG: Catalog = {
           "ui": {
             "type": "text"
           },
-          "tooltip": "Variable to check using templating.\n      \\n\n      \\n\n      https://docs.tdarr.io/docs/plugins/flow-plugins/basics#plugin-variable-templating\n\n      \\n\n      \\n\n      For example ,\n\n      \\nExample\\n\n      {{{args.librarySettings._id}}}\n\n      \\nExample\\n\n      {{{args.inputFileObj._id}}}\n\n      \\nExample\\n\n      {{{args.userVariables.library.test}}}\n\n      \\nExample\\n\n      {{{args.userVariables.global.test}}}\n\n      \\nExample\\n\n      {{{args.inputFileObj.mediaInfo.track.0.IsStreamable}}}\n\n      \\nExample\\n\n      {{{args.inputFileObj.ffProbeData.format.nb_streams}}}\n\n      \\nExample\\n\n      {{{args.inputFileObj.ffProbeData.streams.1.codec_name}}}\n\n      \\n\n      \\n\n      You can also enter a plain variable name matching what was used in 'Set Flow Variable'.\n      For example, if you set a variable called 'test', you can enter 'test' here\n      and it will check args.variables.user.test automatically."
+          "tooltip": "Variable to check using templating.\n\nhttps://docs.tdarr.io/docs/plugins/flow-plugins/basics#plugin-variable-templating\n\nFor example ,\n\nExample:\n{{{args.librarySettings._id}}}\n\nExample:\n{{{args.inputFileObj._id}}}\n\nExample:\n{{{args.userVariables.library.test}}}\n\nExample:\n{{{args.userVariables.global.test}}}\n\nExample:\n{{{args.inputFileObj.mediaInfo.track.0.IsStreamable}}}\n\nExample:\n{{{args.inputFileObj.ffProbeData.format.nb_streams}}}\n\nExample:\n{{{args.inputFileObj.ffProbeData.streams.1.codec_name}}}\n\nYou can also enter a plain variable name matching what was used in 'Set Flow Variable'.\nFor example, if you set a variable called 'test', you can enter 'test' here\nand it will check args.variables.user.test automatically."
         },
         {
           "name": "condition",
@@ -4083,7 +4083,7 @@ export const CATALOG: Catalog = {
               "libraryCache"
             ]
           },
-          "tooltip": "Specify which cache to clear\n\n    jobCache: Clears all other files in this job's cache folder (which is a subfolder of the library cache).\n    libraryCache: Clears all other files in the library cache."
+          "tooltip": "Specify which cache to clear\n\njobCache: Clears all other files in this job's cache folder (which is a subfolder of the library cache).\nlibraryCache: Clears all other files in the library cache."
         }
       ],
       "outputs": [
@@ -4310,7 +4310,7 @@ export const CATALOG: Catalog = {
           "ui": {
             "type": "text"
           },
-          "tooltip": "Input your arr host here.\\nExample:\\nhttp://192.168.1.1:7878\\nhttp://192.168.1.1:8989\\nhttps://radarr.domain.com\\nhttps://sonarr.domain.com\\n"
+          "tooltip": "Input your arr host here.\nExample:\nhttp://192.168.1.1:7878\nhttp://192.168.1.1:8989\nhttps://radarr.domain.com\nhttps://sonarr.domain.com"
         }
       ],
       "outputs": [
@@ -4370,7 +4370,7 @@ export const CATALOG: Catalog = {
           "ui": {
             "type": "text"
           },
-          "tooltip": "Input your arr host here.\\nExample:\\nhttp://192.168.1.1:7878\\nhttp://192.168.1.1:8989\\nhttps://radarr.domain.com\\nhttps://sonarr.domain.com\\n"
+          "tooltip": "Input your arr host here.\nExample:\nhttp://192.168.1.1:7878\nhttp://192.168.1.1:8989\nhttps://radarr.domain.com\nhttps://sonarr.domain.com"
         }
       ],
       "outputs": [
@@ -4736,7 +4736,7 @@ export const CATALOG: Catalog = {
           "ui": {
             "type": "text"
           },
-          "tooltip": "This path can be accessed using ${outputFilePath} in the \"CLI Arguments\" input below.\n\n\\n\n${cacheDir} is a special variable that points to the Tdarr worker cache directory.\n\n\\n\n${fileName} is a special variable for the filename without extension.\n\n\\nExample\\n\n${cacheDir}/${fileName}.{{{args.inputFileObj.container}}}",
+          "tooltip": "This path can be accessed using ${outputFilePath} in the \"CLI Arguments\" input below.\n\n${cacheDir} is a special variable that points to the Tdarr worker cache directory.\n\n${fileName} is a special variable for the filename without extension.\n\nExample:\n${cacheDir}/${fileName}.{{{args.inputFileObj.container}}}",
           "displayConditions": {
             "logic": "AND",
             "sets": [
@@ -4761,7 +4761,7 @@ export const CATALOG: Catalog = {
           "ui": {
             "type": "text"
           },
-          "tooltip": "Specify arguments to pass to the CLI.\n      Normal variable templating with {{{}}} applies but ${outputFilePath} is a special\n      variable from the \"Output File Path\" input above.\n\n      \\nExample\\n\n      -o \"${outputFilePath}\" \"{{{args.inputFileObj._id}}}\""
+          "tooltip": "Specify arguments to pass to the CLI.\nNormal variable templating with {{{}}} applies but ${outputFilePath} is a special\nvariable from the \"Output File Path\" input above.\n\nExample:\n-o \"${outputFilePath}\" \"{{{args.inputFileObj._id}}}\""
         },
         {
           "name": "outputFileBecomesWorkingFile",
@@ -4845,7 +4845,7 @@ export const CATALOG: Catalog = {
           "ui": {
             "type": "text"
           },
-          "tooltip": "Variable to set.\n\n      \\nExample\\n\n      transcodeStage\n\n      \\n\n      You can then check this in the 'Check Flow Variable' plugin\n      {{{args.variables.user.transcodeStage}}}"
+          "tooltip": "Variable to set.\n\nExample:\ntranscodeStage\n\nYou can then check this in the 'Check Flow Variable' plugin\n{{{args.variables.user.transcodeStage}}}"
         },
         {
           "name": "value",
@@ -4855,7 +4855,7 @@ export const CATALOG: Catalog = {
           "ui": {
             "type": "text"
           },
-          "tooltip": "Value to set.\n\n      \\nExample\\n\n      1\n\n      \\nExample\\n\n      nvenc"
+          "tooltip": "Value to set.\n\nExample:\n1\n\nExample:\nnvenc"
         }
       ],
       "outputs": [

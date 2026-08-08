@@ -39,6 +39,53 @@ export function loadDetails(file: string): FlowPluginDetails {
   return module_.details();
 }
 
+export interface DiscoveredClassicPlugin {
+  id: string;
+  file: string;
+  details: Record<string, unknown>;
+}
+
+/**
+ * The classic plugins, one file per plugin rather than the flow plugins'
+ * category/name/version tree.
+ *
+ * A plugin that will not evaluate is skipped rather than fatal: unlike the flow
+ * plugins these do not feed the linter, so losing one costs a search result,
+ * not correctness. The count is reported so a sudden drop is still visible.
+ */
+export function discoverClassicPlugins(root?: string): DiscoveredClassicPlugin[] {
+  const paths = vendorPaths(root);
+  const dir = join(paths.root, 'Community');
+  if (!existsSync(dir)) {
+    throw new Error(`no vendored classic plugins at ${dir} - run \`pnpm plugins:update\``);
+  }
+
+  const found: DiscoveredClassicPlugin[] = [];
+  const skipped: string[] = [];
+
+  for (const file of readdirSync(dir)) {
+    if (!file.endsWith('.js')) continue;
+    const full = join(dir, file);
+    try {
+      const module_ = require_(full) as { details?: () => Record<string, unknown> };
+      if (typeof module_.details !== 'function') {
+        skipped.push(file);
+        continue;
+      }
+      found.push({ id: file.replace(/\.js$/, ''), file: full, details: module_.details() });
+    } catch {
+      skipped.push(file);
+    }
+  }
+
+  if (skipped.length) {
+    console.warn(`skipped ${skipped.length} classic plugin(s): ${skipped.join(', ')}`);
+  }
+
+  found.sort((a, b) => a.id.localeCompare(b.id));
+  return found;
+}
+
 export function discoverPlugins(root?: string): DiscoveredPlugin[] {
   const paths = vendorPaths(root);
   if (!paths.available) {

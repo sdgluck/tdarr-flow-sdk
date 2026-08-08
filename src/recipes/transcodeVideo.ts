@@ -3,7 +3,7 @@ import { Junction } from '../graph/builder.ts';
 import type { Cursor, Exit } from '../graph/builder.ts';
 import { ffmpegCommand } from '../graph/ffmpegCommand.ts';
 import type { VideoStep } from '../types/spec.ts';
-import { recipe } from './types.ts';
+import { recipe, withCustomArguments } from './types.ts';
 import type { Recipe } from './types.ts';
 
 const CODEC_TITLE: Record<VideoStep['targetCodec'], string> = {
@@ -63,6 +63,7 @@ export function transcodeVideo(step: VideoStep): Recipe {
       if (encoder.tenBit) block.tenBit();
       if (encoder.hdrToSdr) block.hdrToSdr();
       if (encoder.cropBlackBars) block.cropBlackBars();
+      withCustomArguments(block, encoder.customArguments);
 
       const done = cursor.then(block);
       return finish(done, exits);
@@ -73,7 +74,7 @@ export function transcodeVideo(step: VideoStep): Recipe {
     const encoder = step.encoder;
     const fallback = builder.add(
       plugins.runClassicTranscodePlugin(
-        { pluginSourceId: encoder.fallbackPluginSourceId },
+        { pluginSourceId: encoder.fallbackPluginSourceId, ...encoder.fallbackInputs },
         { name: `Transcode ${title} (CPU)` },
       ),
     );
@@ -89,7 +90,7 @@ export function transcodeVideo(step: VideoStep): Recipe {
         ),
       );
       const hardware = test.on(1, plugins.runClassicTranscodePlugin(
-        { pluginSourceId: branch.pluginSourceId },
+        { pluginSourceId: branch.pluginSourceId, ...branch.inputs },
         { name: `Transcode ${title} (${branch.label})` },
       ));
       encoders.push(hardware);

@@ -25,6 +25,7 @@ export type {
   Destination,
   ExtraAnchor,
   ExtraNode,
+  FfmpegArguments,
   FlowSpec,
   HardwareBranch,
   Notification,

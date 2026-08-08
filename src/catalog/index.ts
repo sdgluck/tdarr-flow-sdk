@@ -12,8 +12,11 @@ import type {
   CatalogInput,
   PluginRefString,
 } from '../types/catalog.ts';
+import type { ClassicPluginEntry } from '../types/classic.ts';
 import type { DisplayConditions } from '../types/plugin.ts';
 import { CATALOG } from './data.generated.ts';
+import { CLASSIC_PLUGINS } from './classic.generated.ts';
+import { fuzzySearch } from './fuzzy.ts';
 import type { PluginRef } from './inputs.generated.ts';
 
 export const catalog: Catalog = CATALOG;
@@ -132,5 +135,34 @@ export function visibleInputs(
   return entry.inputs.filter((i) => evaluateDisplayConditions(i.displayConditions, values));
 }
 
+// --- classic (pre-flow) plugins ---------------------------------------------
+
+export function listClassicPlugins(): readonly ClassicPluginEntry[] {
+  return CLASSIC_PLUGINS;
+}
+
+/** Accepts either the bare id or the `Community:`-prefixed source id. */
+export function findClassicPlugin(idOrSourceId: string): ClassicPluginEntry | undefined {
+  const id = idOrSourceId.includes(':') ? idOrSourceId.split(':').slice(1).join(':') : idOrSourceId;
+  return CLASSIC_PLUGINS.find((entry) => entry.id === id);
+}
+
+/**
+ * Ranked by how well the query matches, name first. Every id shares the
+ * `Tdarr_Plugin_` prefix, so a substring search over ids alone would rank
+ * everything equally - which is why this is fuzzy and weighted.
+ */
+export function searchClassicPlugins(query: string): readonly ClassicPluginEntry[] {
+  return fuzzySearch(query, CLASSIC_PLUGINS, (entry) => [
+    entry.name,
+    entry.id,
+    entry.description,
+    entry.tags.join(' '),
+  ]).map((result) => result.item);
+}
+
+export { fuzzyScore, fuzzySearch } from './fuzzy.ts';
+export type { FuzzyResult } from './fuzzy.ts';
+export type { ClassicPluginEntry };
 export type { PluginRef };
 export type { Catalog, CatalogEntry, CatalogInput, PluginRefString };
