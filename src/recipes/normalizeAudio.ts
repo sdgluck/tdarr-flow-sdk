@@ -1,5 +1,5 @@
 import * as plugins from '../catalog/factories.generated.ts';
-import { localNode } from '../graph/builder.ts';
+import { Junction, localNode } from '../graph/builder.ts';
 import type { Cursor } from '../graph/builder.ts';
 import { ffmpegCommand } from '../graph/ffmpegCommand.ts';
 import type { AudioStep, AudioTarget, ContainerStep } from '../types/spec.ts';
@@ -117,10 +117,24 @@ export function normalizeAudio(step: AudioStep, container?: ContainerStep): Reci
         head.then(mono);
       }
 
-      if (!converge) return tail ?? stereo ?? mono ?? surround ?? head;
+      // Every branch has to rejoin before Execute. With a local normaliser that
+      // node is the meeting point; without one there is nothing to meet at, so
+      // the loose ends are collected into a junction and whatever comes next
+      // wires them all. Returning just one of them would leave the others
+      // dangling - a mono file would reach its encoder and then stop, never
+      // reaching Execute, and the flow would report success having done nothing.
+      const ends = [tail, stereo, mono].filter((cursor): cursor is Cursor => Boolean(cursor));
+      if (!ends.length) return converge ?? head;
 
-      for (const source of [stereo, mono, tail]) source?.then(converge);
-      return converge;
+      if (converge) {
+        for (const end of ends) end.then(converge);
+        return converge;
+      }
+
+      return new Junction(
+        builder,
+        ends.map((end) => ({ id: end.id, handle: 1 as const })),
+      );
     });
 
     if (step.reorder) {

@@ -111,6 +111,10 @@ export {
 export type { CompiledFlow, CompileOptions, Recipe, RecipeMeta, Stage } from './recipes/index.ts';
 export { SPEC_VERSION, SpecVersionError } from './types/spec.ts';
 
+// --- starting points ---------------------------------------------------------
+export { findPreset, isPristine, PRESETS } from './presets/index.ts';
+export type { FlowPreset } from './presets/index.ts';
+
 // --- custom ffmpeg arguments -------------------------------------------------
 export {
   completeFlag,

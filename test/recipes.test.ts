@@ -143,6 +143,29 @@ describe('normalizeAudio', () => {
     expect(byId.get(next.target)!.name).toContain('Stereo');
   });
 
+  it('converges every branch even without a local normaliser', () => {
+    // Without one there is no natural meeting point, and returning a single
+    // branch would leave the others dangling: a mono file would reach its
+    // encoder and stop, never reaching Execute, and the flow would report
+    // success having done nothing.
+    const { normalise: _normalise, ...withoutNormaliser } = pipelineSpec.audio;
+    const json = build(normalizeAudio(withoutNormaliser, pipelineSpec.container));
+
+    const execute = json.flowPlugins.find((n) => n.pluginName === 'ffmpegCommandExecute')!;
+    const reorder = json.flowPlugins.find((n) => n.pluginName === 'ffmpegCommandRorderStreams')!;
+
+    for (const ensure of json.flowPlugins.filter((n) =>
+      n.pluginName === 'ffmpegCommandEnsureAudioStream'
+    )) {
+      const onward = json.flowEdges.filter((e) => e.source === ensure.id);
+      expect(onward.length, `${ensure.name} goes nowhere`).toBeGreaterThan(0);
+    }
+
+    // And everything still funnels into the one Execute.
+    expect(json.flowEdges.filter((e) => e.target === reorder.id).length).toBeGreaterThan(1);
+    expect(json.flowEdges.filter((e) => e.target === execute.id)).toHaveLength(1);
+  });
+
   it('sends every audio path through the local normaliser', () => {
     const norm = json.flowPlugins.find((n) => n.pluginName === 'normaliseAudioTracks')!;
     expect(norm.sourceRepo).toBe('Local');
