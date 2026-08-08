@@ -96,6 +96,6 @@ export const pipelineSpec: FlowSpec = {
     notifications: [],
   },
 
-  policy: { errorHandling: 'reset-and-continue' },
+  policy: { errorHandling: 'none' },
   extras: [],
 };

@@ -104,4 +104,11 @@ export const PASSTHROUGH_INPUTS: Record<PluginRefString, string> = {
  */
 export const FLOW_ENDING: Record<PluginRefString, string> = {
   'replaceOriginalFile@1.0.0': 'commits the working file over the library file; the usual last node',
+  // Delivering the file elsewhere is the other way a flow finishes. Wiring on
+  // from it stays legal - a notification after a move is perfectly ordinary -
+  // but the file has left the library by this point, so an unwired output is
+  // the normal case rather than a forgotten branch.
+  'moveToDirectory@1.0.0': 'delivers the file to its destination; the usual last node',
+  'moveToDirectory@2.0.0': 'delivers the file to its destination; the usual last node',
+  'moveToOriginalDirectory@1.0.0': 'delivers the file to its destination; the usual last node',
 };

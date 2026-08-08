@@ -241,14 +241,45 @@ export interface OutputStep {
 
 // --- policy -----------------------------------------------------------------
 
+/**
+ * A finding someone has looked at and decided is correct as it stands.
+ *
+ * Two rules report intent as often as error - a gate's reject path is *meant* to
+ * dead-end, and some failures are meant to stop the job - so without somewhere
+ * to record "yes, on purpose" the choice is between a permanently noisy panel
+ * and a rule too lax to catch the real thing.
+ *
+ * `at` is deliberately not a node id. Ids are hashed from the whole flow and
+ * change whenever anything upstream does, so an acceptance keyed on one would
+ * lapse silently at the next edit. `stage/plugin/handle` survives renaming the
+ * flow, retuning a threshold, and inserting a node ahead of it.
+ */
+export interface AcceptedFinding {
+  rule: string;
+  /** `stage/pluginName/handle`, e.g. `source/checkFileMedium/2`. */
+  at: string;
+  /** The node's name when it was accepted, so the list reads as something. */
+  what: string;
+  why?: string;
+}
+
 export interface PolicyStep {
   /**
    * What happens after a node that can fail actually does.
-   * `reset-and-continue` clears the failure and carries on with the file as it
-   * stands - the reference pipeline's approach, and the only one that does not
-   * throw away work already done.
+   *
+   * `none` wires nothing, which is what a new flow starts as: the linter reports
+   * every unhandled failure and offers to wire them, so error handling is a
+   * decision someone made rather than one made for them.
+   *
+   * The rest add a handler to every node whose error handle is *catalogued* -
+   * never one that is merely assumed (see catalog/overrides.ts).
+   * `reset-and-continue` clears the failure and rejoins the flow where the
+   * failed node would have continued; `keep-original` does that and reverts the
+   * working file; `fail-flow` sends the job to the error table explicitly.
    */
   errorHandling: 'reset-and-continue' | 'keep-original' | 'fail-flow' | 'none';
+  /** Findings deliberately left as they are. See `AcceptedFinding`. */
+  accepted?: AcceptedFinding[];
   layout?: LayoutOptions;
 }
 

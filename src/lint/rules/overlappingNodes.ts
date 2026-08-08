@@ -24,6 +24,7 @@ export const overlappingNodes: LintRule = {
           severity: 'warning',
           nodeId: node.id,
           nodeName: node.name,
+          pluginName: node.pluginName,
           message: `${node.name} sits exactly on top of ${other} at (${key})`,
         });
       } else {

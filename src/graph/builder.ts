@@ -356,6 +356,11 @@ export class FlowBuilder {
     return this;
   }
 
+  /** The stage new nodes are being tagged with, so a pass can restore it. */
+  currentStage(): string | undefined {
+    return this.#stage;
+  }
+
   /** Node id -> stage, for every node that was tagged. */
   stages(): Record<string, string> {
     return Object.fromEntries(

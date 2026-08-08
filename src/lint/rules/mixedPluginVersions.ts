@@ -23,6 +23,7 @@ export const mixedPluginVersions: LintRule = {
       .map(([pluginName, versions]) => ({
         rule: 'mixed-plugin-versions',
         severity: 'warning' as const,
+        pluginName,
         message: `${pluginName} is used at more than one version: `
           + [...versions].map(([v, names]) => `${v} (${names.join(', ')})`).join(' vs '),
       }));

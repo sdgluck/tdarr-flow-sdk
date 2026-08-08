@@ -14,6 +14,7 @@ export const uncataloguedPlugin: LintRule = {
       severity: 'warning' as const,
       nodeId: node.id,
       nodeName: node.name,
+      pluginName: node.pluginName,
       message: `${node.pluginName}@${node.version} is not in the catalog, so its handles cannot `
         + 'be checked. Declare its shape with localNode() or catalogShapes({ ... }).',
     }));

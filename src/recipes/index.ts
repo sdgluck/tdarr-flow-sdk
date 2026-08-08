@@ -1,6 +1,7 @@
 export { cleanTracks } from './cleanTracks.ts';
 export { compileFlow, compileSpec, migrateSpec, newSpec } from './compileSpec.ts';
 export type { CompiledFlow, CompileOptions, Stage } from './compileSpec.ts';
+export { applyErrorPolicy, errorPolicyTargets } from './errorPolicy.ts';
 export { extrasSegment } from './extras.ts';
 export { finalise } from './finalise.ts';
 export { normalizeAudio } from './normalizeAudio.ts';

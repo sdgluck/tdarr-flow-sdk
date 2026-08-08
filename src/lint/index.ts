@@ -72,6 +72,9 @@ export function assertNoLintErrors(flow: FlowJson, options: LintOptions = {}): v
   if (errors.length) throw new Error(`flow lint failed:\n${formatFindings(errors)}`);
 }
 
+export { applyFixes, findingKey, fixesFor, isAccepted, partitionFindings } from './fix.ts';
+export type { FixContext, FixKind, FixOutcome, SpecFix } from './fix.ts';
+
 export { buildContext, formatFindings, catalogShapes };
 export type { LintContext } from './context.ts';
 export type { LintFinding, LintRule, LintSeverity, NodeShape, ShapeResolver };

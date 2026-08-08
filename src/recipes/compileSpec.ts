@@ -13,6 +13,7 @@ import type { FlowJson } from '../types/flow.ts';
 import { SPEC_VERSION, SpecVersionError } from '../types/spec.ts';
 import type { FlowSpec } from '../types/spec.ts';
 import { cleanTracks } from './cleanTracks.ts';
+import { applyErrorPolicy } from './errorPolicy.ts';
 import { extrasSegment } from './extras.ts';
 import { finalise } from './finalise.ts';
 import { normalizeAudio } from './normalizeAudio.ts';
@@ -104,6 +105,11 @@ export function compileFlow(spec: FlowSpec, options: CompileOptions = {}): Compi
   builder.stage('output');
   cursor.then(finalise(spec.output, spec.container));
 
+  // Last, and over the whole graph: a failure path is a property of every stage
+  // at once, and the pass has to see the edges each stage actually produced
+  // before it can say where a failure should resume.
+  applyErrorPolicy(builder, spec.policy);
+
   builder.stage(undefined);
 
   return { flow: builder.build(), stages: builder.stages() as Record<string, Stage> };
@@ -131,7 +137,10 @@ export function newSpec(name = 'New Flow'): FlowSpec {
     tracks: { mode: 'leave', implementation: { kind: 'ffmpeg' } },
     audio: { mode: 'leave', encoder: 'eac3', language: 'eng', stereoMate: false },
     output: { restampStatistics: false, destination: { kind: 'replaceOriginal' }, notifications: [] },
-    policy: { errorHandling: 'reset-and-continue' },
+    // Off, so a new flow is exactly what the wizard says it is. The linter
+    // reports every unhandled failure path and offers to wire them, which makes
+    // error handling a decision someone made rather than one made for them.
+    policy: { errorHandling: 'none' },
     extras: [],
   };
 }

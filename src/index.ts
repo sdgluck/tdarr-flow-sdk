@@ -75,14 +75,22 @@ export {
 
 // --- lint -------------------------------------------------------------------
 export {
+  applyFixes,
   assertNoLintErrors,
   buildContext,
   catalogShapes,
+  findingKey,
+  fixesFor,
   formatFindings,
+  isAccepted,
   lint,
+  partitionFindings,
   rules as lintRules,
 } from './lint/index.ts';
 export type {
+  FixContext,
+  FixKind,
+  FixOutcome,
   LintContext,
   LintFinding,
   LintOptions,
@@ -90,10 +98,12 @@ export type {
   LintSeverity,
   NodeShape,
   ShapeResolver,
+  SpecFix,
 } from './lint/index.ts';
 
 // --- recipes and the spec compiler ------------------------------------------
 export {
+  applyErrorPolicy,
   cleanTracks,
   compileFlow,
   compileSpec,

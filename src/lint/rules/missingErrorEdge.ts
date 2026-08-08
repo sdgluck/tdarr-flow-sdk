@@ -26,6 +26,8 @@ export const missingErrorEdge: LintRule = {
         severity: 'warning',
         nodeId: node.id,
         nodeName: node.name,
+        pluginName: node.pluginName,
+        handle: ERROR_HANDLE,
         assumed: shape.confidence === 'assumed',
         message: `${node.name} can fail but has no error edge, so a failure fails the whole job`,
       });

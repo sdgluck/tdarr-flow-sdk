@@ -28,6 +28,8 @@ export const unwiredHandle: LintRule = {
           severity: 'warning',
           nodeId: node.id,
           nodeName: node.name,
+          pluginName: node.pluginName,
+          handle: String(index),
           assumed: shape.confidence === 'assumed' || shape.confidence === 'unknown',
           message: `${node.name} handle ${index} has no outgoing edge; a file leaving by it `
             + 'dead-ends',
