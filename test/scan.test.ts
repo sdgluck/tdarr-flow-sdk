@@ -131,9 +131,52 @@ describe('getting past the 10,000-row cap', () => {
     expect(summary.duplicatesSuppressed).toBeGreaterThan(0);
   });
 
-  it('reports truncation when a prefix cannot be split any further', async () => {
-    // Every file is a direct child, so there is no segment to split on and no
-    // server-side escape. The totals become a floor, and must say so.
+  it('splits a flat folder too, one character at a time', async () => {
+    // Files sitting directly in a folder have no sub-folder to split on. Char
+    // splitting still separates them - `movie1` and `movie2` diverge at the
+    // sixth character - which is the case that folder-name splitting could only
+    // report as unreadable.
+    const paths = Array.from({ length: 10 }, (_, i) => `/mnt/media/film/movie${i}.mkv`);
+    const { fetchImpl } = fakeServer(paths, { cap: 5 });
+    const { records, consume } = collect();
+
+    const summary = await scanLibrary(client(fetchImpl), consume, {
+      roots: ['/mnt/media/film'],
+      pageCap: 5,
+      sleep,
+    });
+
+    expect(records).toHaveLength(10);
+    expect(summary.truncated).toEqual([]);
+  });
+
+  it('finds files whose character the capped page never showed', async () => {
+    // Measured on the real library: querying /mnt/media/tv/ returns 10,000 rows
+    // covering `1 3 5 A` through `Y`, with no `Z` anywhere in them - while
+    // /mnt/media/tv/Z on its own returns six real files. Splitting on only what
+    // the page showed loses them, and loses them silently.
+    const paths = [
+      ...Array.from({ length: 6 }, (_, i) => `/mnt/media/tv/Alpha/e${i}.mkv`),
+      '/mnt/media/tv/Zulu/e1.mkv',
+    ];
+    // The cap is small enough that the page stops before it reaches Zulu.
+    const { fetchImpl } = fakeServer(paths, { cap: 6 });
+    const { records, consume } = collect();
+
+    const summary = await scanLibrary(client(fetchImpl), consume, {
+      roots: ['/mnt/media/tv'],
+      pageCap: 6,
+      sleep,
+    });
+
+    expect(records.map((record) => record._id)).toContain('/mnt/media/tv/Zulu/e1.mkv');
+    expect(summary.emitted).toBe(7);
+    expect(summary.complete).toBe(true);
+  });
+
+  it('reports truncation when it runs out of room to split', async () => {
+    // The last resort. With no depth left there is no server-side escape, so the
+    // totals become a floor and must say so.
     const paths = Array.from({ length: 10 }, (_, i) => `/mnt/media/film/movie${i}.mkv`);
     const { fetchImpl } = fakeServer(paths, { cap: 5 });
     const { consume } = collect();
@@ -141,6 +184,7 @@ describe('getting past the 10,000-row cap', () => {
     const summary = await scanLibrary(client(fetchImpl), consume, {
       roots: ['/mnt/media/film'],
       pageCap: 5,
+      maxDepth: 0,
       sleep,
     });
 
@@ -185,9 +229,9 @@ describe('failure handling', () => {
   it('leaves a subtree it could not read visible in the summary', async () => {
     // A prefix that keeps failing cannot be narrowed: the only way to learn its
     // child directory names is the very query that is failing, and Tdarr has no
-    // directory listing endpoint. So the subtree goes unread - and the point of
-    // this test is that the summary says so, rather than the totals silently
-    // omitting a whole library.
+    // directory listing endpoint. Once even the deferred retry has failed, the
+    // subtree goes unread - and the point of this test is that the summary says
+    // so, rather than the totals silently omitting a whole library.
     const paths = ['/mnt/media/tv/Show A/e1.mkv', '/mnt/media/film/a.mkv'];
     const fail = new Map([['/mnt/media/tv/', 99]]);
     const { fetchImpl } = fakeServer(paths, { fail });
@@ -205,6 +249,42 @@ describe('failure handling', () => {
       expect.objectContaining({ prefix: '/mnt/media/tv/' }),
     ]);
     expect(summary.complete).toBe(false);
+  });
+
+  it('comes back to a failed prefix after everything else has been read', async () => {
+    // Observed live: a 100 MB response leaves the proxy in front of Tdarr
+    // returning 502 for longer than the immediate backoff waits, so the TV
+    // library failed all five attempts in a row and then succeeded when tried
+    // again at the end. Without this, a third of the library reads as unreadable.
+    const paths = ['/mnt/media/tv/Show A/e1.mkv', '/mnt/media/film/a.mkv'];
+    // Fails both immediate attempts, then answers on the deferred one.
+    const fail = new Map([['/mnt/media/tv/', 2]]);
+    const { fetchImpl } = fakeServer(paths, { fail });
+    const { records, consume } = collect();
+
+    const summary = await scanLibrary(client(fetchImpl), consume, {
+      roots: ['/mnt/media/tv', '/mnt/media/film'],
+      retries: 1,
+      sleep,
+    });
+
+    expect(records.map((record) => record._id).sort()).toEqual(paths.sort());
+    expect(summary.failed).toEqual([]);
+    expect(summary.complete).toBe(true);
+  });
+
+  it('defers a prefix only once, so a dead subtree cannot loop forever', async () => {
+    const fail = new Map([['/mnt/media/film/', 99]]);
+    const { fetchImpl } = fakeServer(['/mnt/media/film/a.mkv'], { fail });
+    const { consume } = collect();
+
+    const summary = await scanLibrary(client(fetchImpl), consume, {
+      roots: ['/mnt/media/film'],
+      retries: 1,
+      sleep,
+    });
+
+    expect(summary.failed).toHaveLength(1);
   });
 
   it('records a leaf that cannot be rescued, and carries on', async () => {
@@ -275,19 +355,19 @@ describe('coverage', () => {
   });
 
   it('reports progress per prefix, not per file', async () => {
-    const paths = Array.from({ length: 20 }, (_, i) => `/mnt/media/tv/Show ${i % 2}/e${i}.mkv`);
-    const { fetchImpl } = fakeServer(paths, { cap: 10 });
+    const paths = Array.from({ length: 400 }, (_, i) => `/mnt/media/tv/Show ${i % 2}/e${i}.mkv`);
+    const { fetchImpl } = fakeServer(paths);
     const { consume } = collect();
     const updates: number[] = [];
 
     await scanLibrary(client(fetchImpl), consume, {
       roots: ['/mnt/media/tv'],
-      pageCap: 10,
       sleep,
       onProgress: (progress) => void updates.push(progress.filesSeen),
     });
 
-    // 20 files, far fewer updates. Firing per row would jank the tab at 23,846.
+    // 400 files, a handful of updates. Firing per row would jank the tab at
+    // 23,846 files.
     expect(updates.length).toBeLessThan(10);
   });
 });

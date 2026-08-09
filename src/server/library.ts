@@ -30,16 +30,33 @@
  * `string` works. It is a substring match on the file path, which is enough to
  * partition a library by directory. The trick is what to do with a response that
  * came back capped: it is useless as *data*, since there is no way to ask for the
- * rows it left out - but it is a perfectly good **directory listing**. Splitting
- * on the next path segment of the 10,000 paths it did return turns one wasted
- * request into hundreds of prefixes that each fit under the cap. In practice that
- * bottoms out after two or three rounds.
+ * rows it left out - but it is a perfectly good **listing of what lies below**.
+ * Extending the prefix by one character for each distinct next character in the
+ * 10,000 paths it did return turns one wasted request into a few dozen that each
+ * fit under the cap, and only the ones still over it need splitting again.
+ *
+ * A character at a time rather than a folder at a time is deliberate, and the
+ * difference is not small: a TV library of 638 shows split on folder names is 638
+ * requests, each making the server scan its whole database - about ten seconds
+ * apiece, so over half an hour. On first characters it is roughly thirty.
+ *
+ * The split has a limit worth knowing about: a capped page only lists what its
+ * own rows contain, so anything with no file among those 10,000 is never
+ * discovered. Nothing in the API can fix that - there is no way to ask for the
+ * rows it withheld. What catches it is the coverage reconciliation at the end:
+ * `emitted` is compared against the server's own `totalFileCount`, and `complete`
+ * is false when they disagree, so the report says its totals are a floor instead
+ * of quietly describing part of a library.
  *
  * That trick needs a response, though. A prefix whose query keeps *failing*
  * cannot be narrowed at all - naming its children means running the query that
- * is failing, and there is no directory listing endpoint to ask instead. Such a
- * prefix is recorded in `ScanSummary.failed` and the scan continues, so the hole
- * is visible in the report rather than hidden inside a plausible-looking total.
+ * is failing, and there is no directory listing endpoint to ask instead. The one
+ * move left is time: a 100 MB response makes the proxy in front of Tdarr 502 for
+ * a while afterwards, longer than the immediate backoff waits, so a failed prefix
+ * is held back and tried once more after everything else has been read. Observed
+ * live - the TV library failed all five immediate attempts and then succeeded on
+ * the deferred one. Whatever still fails lands in `ScanSummary.failed`, so the
+ * hole is visible in the report rather than hidden inside a plausible total.
  */
 
 import { project } from '../simulate/record.ts';
@@ -183,15 +200,29 @@ export async function scanLibrary(
   report('discovering', 'libraries', 0);
   summary.expectedFiles = await readTotalFileCount(client);
 
-  const queue: Array<{ prefix: string; depth: number }> = [];
+  const queue: Array<{ prefix: string; depth: number; deferred?: boolean }> = [];
   const roots = options.roots ?? await readRoots(client);
   for (const root of roots) queue.push({ prefix: normalise(root), depth: 0 });
   if (queue.length === 0) queue.push({ prefix: '', depth: 0 });
 
-  while (queue.length > 0) {
+  /** Prefixes that failed every attempt, held for one retry once the rest is done. */
+  const deferred: Array<{ prefix: string; depth: number }> = [];
+
+  while (queue.length > 0 || deferred.length > 0) {
     if (options.signal?.aborted) break;
-    const { prefix, depth } = queue.pop()!;
-    report('scanning', prefix, queue.length);
+
+    if (queue.length === 0) {
+      // Everything else has been read, so the server has had the rest of the
+      // scan to recover from whatever went wrong. A prefix returning 100 MB
+      // makes the proxy in front of Tdarr 502 for a while afterwards, and the
+      // immediate backoff - tens of seconds - is not always long enough. Coming
+      // back at the end costs one request and is the difference between reading
+      // a library and reporting that a third of it was unreadable.
+      queue.push(...deferred.splice(0).map((entry) => ({ ...entry, deferred: true })));
+    }
+
+    const { prefix, depth, deferred: isRetry } = queue.pop()!;
+    report('scanning', prefix, queue.length + deferred.length);
 
     let rows: SearchRow[] | undefined;
     let lastError = '';
@@ -206,7 +237,11 @@ export async function scanLibrary(
         if (!isRetryable(error) || attempt === retries) break;
         const waitMs = Math.round((BACKOFF_MS[Math.min(attempt, BACKOFF_MS.length - 1)] ?? 1_000)
           * jitter());
-        report('scanning', prefix, queue.length, { attempt: attempt + 1, waitMs, reason: lastError });
+        report('scanning', prefix, queue.length + deferred.length, {
+          attempt: attempt + 1,
+          waitMs,
+          reason: lastError,
+        });
         await sleep(waitMs);
       }
     }
@@ -214,14 +249,16 @@ export async function scanLibrary(
     if (options.signal?.aborted) break;
 
     if (!rows) {
-      // Nothing clever is possible here. Narrowing the query would very likely
-      // succeed - a 502 on a wide prefix is usually the response being too big -
-      // but the only way to learn the child directory names is to run this exact
-      // query, and it is the one that keeps failing. There is no directory
-      // listing endpoint to fall back on. So the prefix is recorded and the scan
-      // carries on; the summary makes the hole visible rather than papering over
-      // it with a total that quietly excludes a subtree.
-      summary.failed.push({ prefix, reason: lastError || 'unknown error' });
+      // Narrowing the query would very likely succeed - a 502 on a wide prefix is
+      // usually the response being too big - but the only way to learn the child
+      // directory names is to run this exact query, and it is the one failing.
+      // There is no directory listing endpoint to fall back on. So the only move
+      // left is time: hold it back and try once more at the very end.
+      if (isRetry) {
+        summary.failed.push({ prefix, reason: lastError || 'unknown error' });
+      } else {
+        deferred.push({ prefix, depth });
+      }
       done += 1;
       continue;
     }
@@ -289,23 +326,58 @@ async function search(client: TdarrClient, prefix: string): Promise<SearchRow[]>
 }
 
 /**
- * The distinct next path segments below `prefix`, each as a prefix of its own.
+ * Characters a capped page may have hidden.
  *
- * Rows that do not start with `prefix` are ignored here: `string` is a substring
+ * A capped response only lists what its own rows contain, and the rows it
+ * withheld are unaskable. Measured on a real library: querying `/mnt/media/tv/`
+ * returns 10,000 rows whose next characters are `1 3 5 A` through `Y` - no `Z` -
+ * while `/mnt/media/tv/Z` on its own returns six real files. Splitting on only
+ * what was seen loses them silently.
+ *
+ * So a capped prefix is also probed with this alphabet. Each probe is another
+ * request, but every query costs the same 2-4 seconds regardless of what it
+ * returns - the server scans its whole database either way - so the cost is
+ * simply the count, and roughly forty extra requests once per capped prefix is
+ * what completeness costs here. Characters outside this set are still picked up
+ * by discovery when they appear; the union covers both.
+ */
+const PROBE_ALPHABET = [
+  ...'0123456789',
+  ...'ABCDEFGHIJKLMNOPQRSTUVWXYZ',
+  ...'abcdefghijklmnopqrstuvwxyz',
+  ...' .-_([',
+];
+
+/**
+ * The distinct next *characters* below `prefix`, each as a prefix of its own.
+ *
+ * Splitting a character at a time rather than a whole folder name at a time is
+ * what makes this usable. A TV library of 638 shows splits into 638 prefixes on
+ * folder names, and every one of them is a separate request that makes the
+ * server scan its whole database - measured at roughly ten seconds each, so over
+ * half an hour for one library. The same split on first characters produces
+ * about thirty prefixes, and only the ones still over the cap need splitting
+ * again. Same coverage, a twentieth of the requests.
+ *
+ * It also loses less. A capped page is only a listing of the rows it returned,
+ * so any child not represented in those 10,000 rows is invisible - and there are
+ * far fewer distinct first characters than folder names, so far more of them
+ * appear.
+ *
+ * Rows that do not start with `prefix` are ignored: `string` is a substring
  * match, so a capped page can contain paths from elsewhere entirely, and
  * splitting on those would produce prefixes that go nowhere.
  */
 function splitOn(rows: SearchRow[], prefix: string): string[] {
-  const segments = new Set<string>();
+  const next = new Set<string>();
   for (const row of rows) {
     const id = typeof row._id === 'string' ? row._id : undefined;
-    if (!id || !id.startsWith(prefix)) continue;
-    const rest = id.slice(prefix.length);
-    const slash = rest.indexOf('/');
-    if (slash <= 0) continue;
-    segments.add(`${prefix}${rest.slice(0, slash)}/`);
+    if (!id || !id.startsWith(prefix) || id.length === prefix.length) continue;
+    next.add(prefix + id[prefix.length]);
   }
-  return [...segments];
+  // Everything the page could not tell us about. See PROBE_ALPHABET.
+  for (const character of PROBE_ALPHABET) next.add(prefix + character);
+  return [...next];
 }
 
 async function readRoots(client: TdarrClient): Promise<string[]> {
