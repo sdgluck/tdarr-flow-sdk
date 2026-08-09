@@ -107,6 +107,23 @@ export class TdarrClient {
     this.#fetch = options.fetchImpl ?? globalThis.fetch.bind(globalThis);
   }
 
+  /**
+   * The same client with a different timeout.
+   *
+   * A library scan pulls uncompressed responses of 40-100 MB, which routinely
+   * outlast the 15 s default. Rather than thread a per-request timeout through
+   * `raw`, the caller takes a client configured for the job.
+   */
+  withTimeout(timeoutMs: number): TdarrClient {
+    return new TdarrClient({
+      url: this.url,
+      ...(this.#token === undefined ? {} : { token: this.#token }),
+      authHeader: this.#authHeader,
+      timeoutMs,
+      fetchImpl: this.#fetch,
+    });
+  }
+
   /** GET when no body is given, POST when there is one. */
   async raw<T = unknown>(path: string, body?: unknown): Promise<T> {
     const target = `${this.url}${path.startsWith('/') ? path : `/${path}`}`;

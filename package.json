@@ -11,6 +11,7 @@
     "./recipes": "./src/recipes/index.ts",
     "./types": "./src/types/index.ts",
     "./server": "./src/server/client.ts",
+    "./simulate": "./src/simulate/index.ts",
     "./node": "./src/node/index.ts"
   },
   "types": "./src/index.ts",
@@ -29,12 +30,13 @@
     "typecheck": "tsc --noEmit",
     "lint": "oxlint src test scripts",
     "lint:fix": "oxlint --fix src test scripts",
-    "check": "pnpm typecheck && pnpm lint && pnpm catalog:check && pnpm test",
+    "check": "pnpm typecheck && pnpm lint && pnpm catalog:check && pnpm simulators:check && pnpm test",
     "prepare": "husky",
     "plugins:update": "node scripts/update-plugins.ts",
     "plugins:check": "node scripts/check-plugins.ts",
     "catalog:generate": "node scripts/generate-catalog.ts",
-    "catalog:check": "node scripts/check-catalog.ts"
+    "catalog:check": "node scripts/check-catalog.ts",
+    "simulators:check": "node scripts/check-simulators.ts"
   },
   "keywords": [
     "tdarr",

@@ -81,4 +81,15 @@ describe('browser safety', () => {
       .map((file) => file.replace(srcDir, 'src'));
     expect(offenders).toEqual([]);
   });
+
+  it('covers the modules the app runs a library scan through', () => {
+    // The checks above only see what `src/index.ts` reaches. A module that stops
+    // being exported from the barrel silently leaves the guard, and these two
+    // are the ones the browser leans on hardest: the scanner pulls tens of
+    // megabytes over fetch, and the interpreter runs per record in the tab.
+    const covered = [...modules.keys()].map((file) => file.replace(srcDir, 'src'));
+    expect(covered).toContain('src/server/library.ts');
+    expect(covered).toContain('src/simulate/interpret.ts');
+    expect(covered).toContain('src/simulate/record.ts');
+  });
 });

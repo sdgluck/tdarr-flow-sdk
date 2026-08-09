@@ -165,6 +165,13 @@ export type {
 } from './server/client.ts';
 export { formatVerifyReport, verifyAgainstFlows } from './server/verify.ts';
 export type { ErrorHandleEvidence, VerifyReport, VersionGap } from './server/verify.ts';
+export { scanLibrary, SEARCH_DB_DEFAULTS } from './server/library.ts';
+export type { ScanOptions, ScanProgress, ScanSummary, Truncation } from './server/library.ts';
+
+// --- simulation --------------------------------------------------------------
+// What a flow would do to a library, without running it. Browser-safe: the app
+// walks tens of thousands of records through this in a tab.
+export * from './simulate/index.ts';
 
 // --- types ------------------------------------------------------------------
 export type * from './types/index.ts';
