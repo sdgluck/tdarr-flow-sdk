@@ -2095,11 +2095,11 @@ export const CLASSIC_PLUGINS: readonly ClassicPluginEntry[] = [
     "id": "Tdarr_Plugin_e5c3_CnT_Add_Subtitles",
     "sourceId": "Community:Tdarr_Plugin_e5c3_CnT_Add_Subtitles",
     "name": "Add Subtitles To MKV Files",
-    "description": "This plugin will check for subtitles, they should be named according to the ISO 639-2 language code.\nA subtitle could look like this: eng.srt\nIf there are subtitles found they will be added with FFMPEG, if there are no subs of that language found.\nOn first run node module iso-639-2 will be installed in the documents folder.\nCreated by @control#0405",
+    "description": "This plugin will check for subtitles, they should be named according to the ISO 639-2 language code.\nA subtitle could look like this: eng.srt\nIf there are subtitles found they will be added with FFMPEG, if there are no subs of that language found.\nCreated by @control#0405",
     "stage": "Pre-processing",
     "type": "Video",
     "operation": "Transcode",
-    "version": "1.3",
+    "version": "1.4",
     "tags": [
       "pre-processing",
       "ffmpeg",
@@ -2107,16 +2107,6 @@ export const CLASSIC_PLUGINS: readonly ClassicPluginEntry[] = [
       "configurable"
     ],
     "inputs": [
-      {
-        "name": "install_packages",
-        "label": "Install packages",
-        "type": "string",
-        "defaultValue": "no",
-        "ui": {
-          "type": "text"
-        },
-        "tooltip": "Please change this to \"yes\", it allows the plugin to install the required nodemodule. (iso-639-2)\nExample:\nyes"
-      },
       {
         "name": "container",
         "label": "Container",
@@ -3718,7 +3708,7 @@ export const CLASSIC_PLUGINS: readonly ClassicPluginEntry[] = [
     "stage": "Pre-processing",
     "type": "Video",
     "operation": "Transcode",
-    "version": "1.06",
+    "version": "1.07",
     "tags": [
       "pre-processing",
       "subtitle only",

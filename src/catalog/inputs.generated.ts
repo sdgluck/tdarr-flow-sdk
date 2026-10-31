@@ -299,6 +299,12 @@ export interface PluginInputs {
     arr_api_key?: string;
     arr_host?: string;
   };
+  "notifyRadarrOrSonarr@3.0.0": {
+    arr?: "radarr" | "sonarr";
+    arr_api_key?: string;
+    arr_host?: string;
+    unmonitor_after_refresh?: boolean;
+  };
   "onFlowError@1.0.0": Record<string, never>;
   "pauseUnpauseAllNodes@1.0.0": {
     pause?: boolean;
@@ -454,6 +460,7 @@ export interface PluginHandles {
   "goToFlow@2.0.0": never;
   "notifyRadarrOrSonarr@1.0.0": 1;
   "notifyRadarrOrSonarr@2.0.0": 1 | 2;
+  "notifyRadarrOrSonarr@3.0.0": 1 | 2;
   "onFlowError@1.0.0": 1;
   "pauseUnpauseAllNodes@1.0.0": 1;
   "processedAdd@1.0.0": 1;

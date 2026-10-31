@@ -1,8 +1,8 @@
 {
   "repo": "HaveAGitGat/Tdarr_Plugins",
   "ref": "master",
-  "sha": "26c97a52f9dcf5fc6faeb751071cb82cdf97ca4e",
-  "committedAt": "2026-08-04T07:16:30Z",
+  "sha": "64b2db671c74c0ec4813b50ba6f54d7f9f1e73ae",
+  "committedAt": "2026-10-27T17:24:30Z",
   "vendoredPaths": [
     "FlowPlugins/CommunityFlowPlugins",
     "FlowPlugins/FlowHelpers",

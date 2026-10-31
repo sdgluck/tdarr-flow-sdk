@@ -458,10 +458,16 @@ export const notifyRadarrOrSonarrV1 = (
 ): NodeSpec<"notifyRadarrOrSonarr@1.0.0"> => node("notifyRadarrOrSonarr@1.0.0", inputs, options);
 
 /** Notify Radarr or Sonarr - 2 output(s), has err1 */
-export const notifyRadarrOrSonarr = (
+export const notifyRadarrOrSonarrV2 = (
   inputs?: InputsFor<"notifyRadarrOrSonarr@2.0.0">,
   options?: NodeOptions,
 ): NodeSpec<"notifyRadarrOrSonarr@2.0.0"> => node("notifyRadarrOrSonarr@2.0.0", inputs, options);
+
+/** Notify Radarr or Sonarr - 2 output(s) */
+export const notifyRadarrOrSonarr = (
+  inputs?: InputsFor<"notifyRadarrOrSonarr@3.0.0">,
+  options?: NodeOptions,
+): NodeSpec<"notifyRadarrOrSonarr@3.0.0"> => node("notifyRadarrOrSonarr@3.0.0", inputs, options);
 
 /** On Flow Error - 1 output(s) */
 export const onFlowError = (
