@@ -3,7 +3,16 @@
   "version": "0.1.0",
   "description": "A typed SDK for building Tdarr flows: a plugin catalog, a fluent graph builder, opinionated recipes, and a browser-safe linter.",
   "type": "module",
-  "license": "MIT",
+  "license": "GPL-3.0-only",
+  "author": "Sam Gluck",
+  "homepage": "https://github.com/sdgluck/tdarr-flow-sdk#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sdgluck/tdarr-flow-sdk.git"
+  },
+  "bugs": {
+    "url": "https://github.com/sdgluck/tdarr-flow-sdk/issues"
+  },
   "exports": {
     ".": "./src/index.ts",
     "./catalog": "./src/catalog/index.ts",
@@ -31,7 +40,7 @@
     "lint": "oxlint src test scripts",
     "lint:fix": "oxlint --fix src test scripts",
     "check": "pnpm typecheck && pnpm lint && pnpm catalog:check && pnpm simulators:check && pnpm test",
-    "prepare": "husky",
+    "hooks:install": "husky",
     "plugins:update": "node scripts/update-plugins.ts",
     "plugins:check": "node scripts/check-plugins.ts",
     "catalog:generate": "node scripts/generate-catalog.ts",

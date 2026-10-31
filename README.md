@@ -9,15 +9,22 @@ Build Tdarr flows from typed primitives instead of dragging boxes around a canva
 - ♻️ **Import** — read an existing flow back into an editable spec, preserving whatever it could not interpret
 - 🔌 **A server client** — list, read and write flows on a Tdarr server straight from a browser, no backend
 
-Ships TypeScript source and runs on Node 24's native type stripping. No build step, no runtime
-dependencies. The main entry is browser-safe and imports directly into Vite; everything that touches
-the filesystem lives behind `tdarr-flow-sdk/node`.
+Ships TypeScript source with no build step and no runtime dependencies. The main entry is
+browser-safe and imports directly into Vite; everything that touches the filesystem lives behind
+`tdarr-flow-sdk/node`.
 
 ## Install
 
+Not published to npm yet, so install from GitHub:
+
 ```sh
-pnpm add tdarr-flow-sdk
+pnpm add github:sdgluck/tdarr-flow-sdk
 ```
+
+Use it through a bundler such as Vite or esbuild, or run it on Node with
+[tsx](https://github.com/privatenumber/tsx). Plain `node` cannot import it from a dependency: Node
+refuses to strip types from anything under `node_modules`, and fails with
+`ERR_UNSUPPORTED_NODE_MODULES_TYPE_STRIPPING`.
 
 ## Building a flow
 
@@ -189,9 +196,10 @@ cannot fail means the catalog is wrong and the linter is rejecting a valid edge.
 ## Development
 
 ```sh
-pnpm check              # typecheck, lint, catalog freshness, tests
+pnpm check              # typecheck, lint, catalog and simulator freshness, tests
 pnpm plugins:update     # re-vendor upstream plugin source
 pnpm catalog:generate   # regenerate the catalog from it
+pnpm hooks:install      # enable the pre-commit checks
 ```
 
 ## Notes
@@ -215,3 +223,12 @@ pnpm catalog:generate   # regenerate the catalog from it
 - **`build()` is pure.** Ids are derived from content and ordinal, and layout is a single
   deterministic sweep, so recompiling a spec produces a byte-identical flow — which is what makes a
   diff against the copy on the server meaningful.
+
+## License
+
+[GPL-3.0](LICENSE). This project is licensed under the GPL because it builds on
+[Tdarr_Plugins](https://github.com/HaveAGitGat/Tdarr_Plugins), which is GPL-3.0: `vendor/` is a copy
+of that source, the catalog is generated from it, and `src/simulate/plugins.ts` transcribes parts of
+it. The vendored files remain the work of their upstream authors; `vendor/VERSION.json` records the
+exact commit. `vendor/methods/node_modules` holds MIT-licensed packages, each with its own license
+file.
